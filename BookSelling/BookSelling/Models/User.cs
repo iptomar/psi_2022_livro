@@ -13,7 +13,6 @@ namespace BookSelling.Models
         /// <summary>
         /// Username for the User
         /// </summary>
-        [Required]
         public string UserName { get; set; }
 
 
