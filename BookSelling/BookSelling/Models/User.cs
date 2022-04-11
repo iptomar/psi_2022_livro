@@ -7,12 +7,12 @@ namespace BookSelling.Models
         /// <summary>
         /// User ID
         /// </summary>
+        [Key]
         public int UserID { get; set; }
         
         /// <summary>
         /// Username for the User
         /// </summary>
-        [Required]
         public string UserName { get; set; }
 
 

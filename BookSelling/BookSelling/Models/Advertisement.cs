@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookSelling.Models
 {
@@ -7,6 +8,7 @@ namespace BookSelling.Models
         /// <summary>
         /// Advertisement ID
         /// </summary>
+        [Key]
         public int AdID { get; set; }
 
         /// <summary>
@@ -24,13 +26,6 @@ namespace BookSelling.Models
         /// Book code for searching in the api
         /// </summary>
         public string ISBM { get; set; }
-
-        /// <summary>
-        /// Foreign Key of User 
-        /// </summary>
-        [ForeignKey(nameof(User))]
-        public int UserID { get; set; }
-        public User User { get; set; }
 
         /// <summary>
         /// Boolean to see if the book was sold
@@ -53,6 +48,11 @@ namespace BookSelling.Models
         /// </summary>
         public DateTime DateTime { get; set; }
 
-
+        /// <summary>
+        /// Foreign Key of User 
+        /// </summary>
+        [ForeignKey(nameof(User))]
+        public int UserID { get; set; }
+        public User User { get; set; }
     }
 }
