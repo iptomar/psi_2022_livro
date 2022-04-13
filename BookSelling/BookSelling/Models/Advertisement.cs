@@ -14,17 +14,20 @@ namespace BookSelling.Models
         /// <summary>
         /// Type of Add  (sell, rent, trade)
         /// </summary>
+        [Required]
         public string TypeofAdd { get; set; }
 
         /// <summary>
         /// Price of the type of add
         /// </summary>
+        [Required]
         public decimal Price { get; set; }
 
 
         /// <summary>
         /// Book code for searching in the api
         /// </summary>
+        [Required]
         public string ISBM { get; set; }
 
         /// <summary>
