@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookSelling.Models
 {
@@ -7,6 +8,7 @@ namespace BookSelling.Models
         /// <summary>
         /// Advertisement ID
         /// </summary>
+        [Key]
         public int AdID { get; set; }
 
         /// <summary>
