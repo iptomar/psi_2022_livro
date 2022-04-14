@@ -41,6 +41,11 @@ namespace BookSelling.Models
         public ICollection<Category> Category { get; set; }
         
         /// <summary>
+        /// Image of the book 
+        /// </summary>
+        public string Imagem { get; set; }
+        
+        /// <summary>
         /// Description of the add 
         /// </summary>
         public string Description { get; set; }
