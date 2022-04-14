@@ -39,7 +39,11 @@ namespace BookSelling.Models
         /// List of the categories of the book
         /// </summary>
         public ICollection<Category> Category { get; set; }
-
+        
+        /// <summary>
+        /// Description of the add 
+        /// </summary>
+        public string Description { get; set; }
 
         /// <summary>
         /// Visibility of the add
