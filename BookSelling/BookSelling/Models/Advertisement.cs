@@ -18,6 +18,11 @@ namespace BookSelling.Models
         public string TypeofAdd { get; set; }
 
         /// <summary>
+        /// Title of the Add
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
         /// Price of the type of add
         /// </summary>
         [Required]
@@ -43,7 +48,7 @@ namespace BookSelling.Models
         /// <summary>
         /// Image of the book 
         /// </summary>
-        public string Imagem { get; set; }
+        public string Photo { get; set; }
         
         /// <summary>
         /// Description of the add 

@@ -13,18 +13,34 @@ namespace BookSelling.Controllers
 {
     public class AdvertisementsController : Controller
     {
+
+        /// <summary>
+        /// this attribute refers the database of our project
+        /// </summary>
         private readonly ApplicationDbContext _context;
 
-        public AdvertisementsController(ApplicationDbContext context)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public AdvertisementsController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Advertisements
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Advertisement.Include(a => a.User);
-            return View(await applicationDbContext.ToListAsync());
+
+            /* execute the db command
+             * select *
+             * from Advertisements
+             * 
+             * and send Data to View
+             */
+            //var applicationDbContext = _context.Advertisement.Include(a => a.User);
+            //return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Advertisement.ToListAsync());
+
         }
 
         // GET: Advertisements/Details/5
@@ -59,13 +75,63 @@ namespace BookSelling.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         // UserID,sold,Visibility,DateTime
-        public async Task<IActionResult> Create([Bind("AdID,TypeofAdd,Price,ISBM")] Advertisement advertisement)
+        public async Task<IActionResult> Create([Bind("AdID,TypeofAdd,Price,ISBM,Photo")] Advertisement advertisement,IFormFile newPhotoAd)
         {
+            /* we must process the image
+             * 
+             * if file is null
+             * add a pre-define image to vet (default avatar)
+             * else
+             *  if file is not an image
+             *  send an error message to user, asking for an image
+             *  else
+             *  - define the name that the image must have
+             *  -add the file name to vetdata
+             *  -save the file on the disk
+             * 
+             */
+            if (newPhotoAd == null)
+            {
+                ModelState.AddModelError("", "Please insert an image with a valid format(png/jpeg)");
+            }
+            else if (!(newPhotoAd.ContentType == "image/jpeg" || newPhotoAd.ContentType == "image/png"))
+            {
+                //write the error message
+                ModelState.AddModelError("", "Please choose a valid format(png/jpeg)");
+                //resend Control to View, with data provided by user
+                return View(advertisement);
+            }
+            else
+            {
+                Guid g;
+                g = Guid.NewGuid();
+                string imageName = advertisement.Photo + "_" + g.ToString();
+                string extensionOfImage = Path.GetExtension(newPhotoAd.FileName).ToLower();
+                imageName += extensionOfImage;
+                advertisement.Photo = imageName;
+
+            }
+
+
+
             if (ModelState.IsValid)
             {
+                //add advertisement data to database
                 _context.Add(advertisement);
+                //commit
                 await _context.SaveChangesAsync();
+
+                // save image file to disk
+                //ask the server what address it wants to use
+                string addressToStoreFile = _webHostEnvironment.WebRootPath;
+                string newImageLocalization = Path.Combine(addressToStoreFile, "Photos", advertisement.Photo);
+
+                //save image file to disk
+                using var stream = new FileStream(newImageLocalization, FileMode.Create);
+                await newPhotoAd.CopyToAsync(stream);
+
                 return RedirectToAction(nameof(Index));
+
             }
             ViewData["UserID"] = new SelectList(_context.Set<User>(), "UserID", "Email", advertisement.UserID);
             return View(advertisement);
@@ -125,6 +191,7 @@ namespace BookSelling.Controllers
         }
 
         // GET: Advertisements/Delete/5
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
