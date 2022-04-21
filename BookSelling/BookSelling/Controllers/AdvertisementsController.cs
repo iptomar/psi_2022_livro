@@ -1,5 +1,4 @@
-﻿#nullable disable
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,9 +36,9 @@ namespace BookSelling.Controllers
              * 
              * and send Data to View
              */
-            //var applicationDbContext = _context.Advertisement.Include(a => a.User);
-            //return View(await applicationDbContext.ToListAsync());
-            return View(await _context.Advertisement.ToListAsync());
+            var applicationDbContext = _context.Advertisement.Include(a => a.User);
+            return View(await applicationDbContext.ToListAsync());
+            //return View(await _context.Advertisement.ToListAsync());
 
         }
 
@@ -74,8 +73,8 @@ namespace BookSelling.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // UserID,sold,Visibility,DateTime
-        public async Task<IActionResult> Create([Bind("AdID,TypeofAdd,Price,ISBM,Photo")] Advertisement advertisement,IFormFile newPhotoAd)
+        // 
+        public async Task<IActionResult> Create([Bind("AdID,TypeofAdd,Title,Description,Price,ISBM,Photo,UserID,sold,Visibility,DateTime")] Advertisement advertisement, IFormFile newphoto)
         {
             /* we must process the image
              * 
@@ -90,11 +89,23 @@ namespace BookSelling.Controllers
              *  -save the file on the disk
              * 
              */
-            if (newPhotoAd == null)
+            //Console.WriteLine(newphoto);
+            // Variable DateTime gets submission datetime
+            advertisement.DateTime = DateTime.Now;
+            //Variable sold gets false value since it was recently created
+            advertisement.sold = false;
+            //Variable Visibility gets true value so it shows once created
+            advertisement.Visibility = true;
+            
+            //advertisement.Photo = newphoto.FileName;
+
+
+            if (newphoto == null)
             {
                 ModelState.AddModelError("", "Please insert an image with a valid format(png/jpeg)");
+                return View(advertisement);
             }
-            else if (!(newPhotoAd.ContentType == "image/jpeg" || newPhotoAd.ContentType == "image/png"))
+            else if (!(newphoto.ContentType == ".jpeg" || newphoto.ContentType == ".png" || newphoto.ContentType == ".jpg"))
             {
                 //write the error message
                 ModelState.AddModelError("", "Please choose a valid format(png/jpeg)");
@@ -106,7 +117,7 @@ namespace BookSelling.Controllers
                 Guid g;
                 g = Guid.NewGuid();
                 string imageName = advertisement.Photo + "_" + g.ToString();
-                string extensionOfImage = Path.GetExtension(newPhotoAd.FileName).ToLower();
+                string extensionOfImage = Path.GetExtension(newphoto.FileName).ToLower();
                 imageName += extensionOfImage;
                 advertisement.Photo = imageName;
 
@@ -116,19 +127,34 @@ namespace BookSelling.Controllers
 
             if (ModelState.IsValid)
             {
-                //add advertisement data to database
-                _context.Add(advertisement);
-                //commit
-                await _context.SaveChangesAsync();
+                try
+                {
+                    //add advertisement data to database
+                    _context.Add(advertisement);
+                    //commit
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception) {
+                    // if the code arrives here, something wrong has appended
+                    // we must fix the error, or at least report it
 
+                    // add a model error to our code
+                    ModelState.AddModelError("", "Something went wrong. I can not store data on database");
+                    // eventually, before sending control to View
+                    // report error. For instance, write a message to the disc
+                    // or send an email to admin              
+
+                    // send control to View
+                    return View(advertisement);
+                }
                 // save image file to disk
                 //ask the server what address it wants to use
                 string addressToStoreFile = _webHostEnvironment.WebRootPath;
-                string newImageLocalization = Path.Combine(addressToStoreFile, "Photos", advertisement.Photo);
+                string newimglocation = Path.Combine(addressToStoreFile, "Photos", advertisement.Photo);
 
                 //save image file to disk
-                using var stream = new FileStream(newImageLocalization, FileMode.Create);
-                await newPhotoAd.CopyToAsync(stream);
+                using var stream = new FileStream(newimglocation, FileMode.Create);
+                await newphoto.CopyToAsync(stream);
 
                 return RedirectToAction(nameof(Index));
 
