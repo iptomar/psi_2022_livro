@@ -5,6 +5,12 @@ namespace BookSelling.Models
 {
     public class Advertisement
     {
+        public Advertisement()
+        {
+            // inicializar a lista de Categorias do Livro
+            AddCategory = new HashSet<Category>();
+        }
+
         /// <summary>
         /// Advertisement ID
         /// </summary>
@@ -35,7 +41,7 @@ namespace BookSelling.Models
         /// <summary>
         /// List of the categories of the book
         /// </summary>
-        public ICollection<Category> Category { get; set; }
+        public ICollection<Category> AddCategory { get; set; }
         
         /// <summary>
         /// Image of the book 
@@ -63,5 +69,6 @@ namespace BookSelling.Models
         [ForeignKey(nameof(User))]
         public int UserID { get; set; }
         public User User { get; set; }
+
     }
 }
