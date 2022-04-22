@@ -105,7 +105,7 @@ namespace BookSelling.Controllers
                 ModelState.AddModelError("", "Please insert an image with a valid format(png/jpeg)");
                 return View(advertisement);
             }
-            else if (!(newphoto.ContentType == ".jpeg" || newphoto.ContentType == ".png" || newphoto.ContentType == ".jpg"))
+            else if (!(newphoto.ContentType == "image/jpeg" || newphoto.ContentType == "image/png" || newphoto.ContentType == "image/jpg"))
             {
                 //write the error message
                 ModelState.AddModelError("", "Please choose a valid format(png/jpeg)");
