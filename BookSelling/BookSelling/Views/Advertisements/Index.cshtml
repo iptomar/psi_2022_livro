@@ -22,13 +22,10 @@
                 @Html.DisplayNameFor(model => model.ISBM)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.sold)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Imagem)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Visibility)
@@ -52,13 +49,10 @@
                 @Html.DisplayFor(modelItem => item.ISBM)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.sold)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Imagem)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Visibility)
