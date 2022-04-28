@@ -2,7 +2,56 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<head>
+    <link rel="stylesheet" href="~/css/StyleSheet.css" />
+</head>
+<h1>Lista de Anuncios</h1>
+
+
+@foreach (var item in Model) {
+
+<div class="Filme">
+    <a asp-action="Details" asp-route-id="@item.AdID">
+        <img class="Photo" src="~/fotos/@Html.DisplayFor(modelItem => item.Photo)" />
+        <div class="overlay">
+            <div class="text">
+                @Html.DisplayFor(modelItem => item.Title)
+            </div>
+        </div>
+    </a>
+</div>}
+
+@*
+    
+
+
+<div style="float:left; margin-right:20px;  margin-top:10px; border:4px solid black">
+        <img src="~/fotos/@Html.DisplayFor(model => model.Capa)"
+             width="200" />
+    </d*>
+    <div style="line-height:2;  ">
+        <b> Titulo:</b>
+        @Html.DisplayFor(model => model.Titulo) <br />
+
+        <b> Data de Lançamento: </b>
+        @Html.DisplayFor(model => model.Data)<br />
+
+        <b> Realizador:</b>
+        @Html.DisplayFor(model => model.Realizador)<br />
+
+        <b> Elenco:</b>
+        @Html.DisplayFor(model => model.Elenco)<br />
+
+        <b> Duração:</b>
+        @Html.DisplayFor(model => model.Duracao)<br />
+
+        <b> Pontuação:</b>
+        @Html.DisplayFor(model => model.Pontuacao)<br />
+
+        <b> Sinopse:</b>
+        @Html.DisplayFor(model => model.Descricao)<br /> <br /><br /> <br />
+
+
+
+    </div>
+    *@
