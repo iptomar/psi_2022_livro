@@ -48,7 +48,7 @@ namespace BookSelling.Models
         /// <summary>
         /// List of the categories of the book
         /// </summary>
-        public ICollection<Category> Category { get; set; }
+        public ICollection<Category> AddCategory { get; set; }
         
         /// <summary>
         /// Image of the book 
