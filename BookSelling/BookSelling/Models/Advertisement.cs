@@ -10,6 +10,7 @@ namespace BookSelling.Models
             // inicializar a lista de Categorias do Livro
             AddCategory = new HashSet<Category>();
         }
+
         /// <summary>
         /// Advertisement ID
         /// </summary>
