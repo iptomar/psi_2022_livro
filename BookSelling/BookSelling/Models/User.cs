@@ -20,7 +20,6 @@ namespace BookSelling.Models
         /// Email do Utilizador
         /// </summary>
         [Required(ErrorMessage = "This is required!")]
-        [EmailAddress(ErrorMessage ="O {0} introduzido não é válido")]
         [StringLength(50, ErrorMessage = "The {0} can't be more than {1} letters.")]
         public string Email { get; set; }
 
