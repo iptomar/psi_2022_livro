@@ -5,6 +5,11 @@ namespace BookSelling.Models
 {
     public class Advertisement
     {
+        public Advertisement()
+        {
+            // inicializar a lista de Categorias do Livro
+            AddCategory = new HashSet<Category>();
+        }
         /// <summary>
         /// Advertisement ID
         /// </summary>
@@ -14,17 +19,25 @@ namespace BookSelling.Models
         /// <summary>
         /// Type of Add  (sell, rent, trade)
         /// </summary>
+        [Required]
         public string TypeofAdd { get; set; }
+
+        /// <summary>
+        /// Title of the Add
+        /// </summary>
+        public string Title { get; set; }
 
         /// <summary>
         /// Price of the type of add
         /// </summary>
+        [Required]
         public decimal Price { get; set; }
 
 
         /// <summary>
         /// Book code for searching in the api
         /// </summary>
+        [Required]
         public string ISBM { get; set; }
 
         /// <summary>
@@ -36,7 +49,16 @@ namespace BookSelling.Models
         /// List of the categories of the book
         /// </summary>
         public ICollection<Category> Category { get; set; }
-
+        
+        /// <summary>
+        /// Image of the book 
+        /// </summary>
+        public string Photo { get; set; }
+        
+        /// <summary>
+        /// Description of the add 
+        /// </summary>
+        public string Description { get; set; }
 
         /// <summary>
         /// Visibility of the add

@@ -31,6 +31,7 @@ namespace BookSelling.Models
         /// <summary>
         /// Area where the User lives
         /// </summary>
+        [Required]
         public string Area { get; set; }
 
         /// <summary>
@@ -41,6 +42,7 @@ namespace BookSelling.Models
         /// <summary>
         /// Telephone number of the user 
         /// </summary>
+        [Required]
         public int Telephone { get; set; }
 
        
