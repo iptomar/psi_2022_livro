@@ -7,7 +7,7 @@ namespace BookSelling.Models
     {
         public Advertisement()
         {
-            // inicializar a lista de Categorias do Livro
+            // inicializar a lista dekjl Categorias do Livro
             AddCategory = new HashSet<Category>();
         }
 
