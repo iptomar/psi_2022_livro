@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using BookSelling.Models;
 
 namespace BookSelling.Data
 {
@@ -11,6 +10,5 @@ namespace BookSelling.Data
         {
 
         }
-        public DbSet<BookSelling.Models.Advertisement> Advertisement { get; set; }
     }
 }
