@@ -331,24 +331,6 @@ namespace BookSelling.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BookSelling.Models.Advertisement", b =>
-                {
-                    b.HasOne("BookSelling.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BookSelling.Models.Category", b =>
-                {
-                    b.HasOne("BookSelling.Models.Advertisement", null)
-                        .WithMany("Category")
-                        .HasForeignKey("AdvertisementAdID");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -398,11 +380,6 @@ namespace BookSelling.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BookSelling.Models.Advertisement", b =>
-                {
-                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }
