@@ -13,6 +13,7 @@ namespace BookSelling.Models
         /// <summary>
         /// Name of the Category
         /// </summary>
+        [Required]
         public string NameCategory { get; set; }
     }
 }
