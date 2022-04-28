@@ -217,6 +217,7 @@ namespace BookSelling.Controllers
         }
 
         // GET: Advertisements/Delete/5
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
