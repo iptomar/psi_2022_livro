@@ -5,6 +5,11 @@ namespace BookSelling.Models
 {
     public class Advertisement
     {
+        public Advertisement()
+        {
+            // inicializar a lista de Categorias do Livro
+            AddCategory = new HashSet<Category>();
+        }
         /// <summary>
         /// Advertisement ID
         /// </summary>
