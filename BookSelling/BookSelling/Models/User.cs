@@ -45,6 +45,10 @@ namespace BookSelling.Models
         [Required]
         public int Telephone { get; set; }
 
+        /// <summary>
+        /// UserID will be use for the connection of the tables 
+        /// </summary>
+        public int UserNameID { get; set; }
        
     }
 }

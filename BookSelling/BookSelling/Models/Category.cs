@@ -4,6 +4,12 @@ namespace BookSelling.Models
 {
     public class Category
     {
+        public Category()
+        {
+            // inicializar a lista de Categorias do Livro
+            CategoriesList = new HashSet<Category>();
+        }
+
         /// <summary>
         /// Id for Category
         /// </summary>
@@ -15,5 +21,10 @@ namespace BookSelling.Models
         /// </summary>
         [Required]
         public string NameCategory { get; set; }
+
+        /// <summary>
+        /// Lista de categorias
+        /// </summary>
+        public ICollection<Category> CategoriesList { get; set; }
     }
 }

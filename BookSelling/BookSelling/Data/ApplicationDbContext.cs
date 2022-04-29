@@ -26,5 +26,9 @@ namespace BookSelling.Data
            );
         }
         public DbSet<BookSelling.Models.Advertisement> Advertisement { get; set; }
+        public DbSet<BookSelling.Models.AdvertsimenteCategory> AdvertsimenteCategory { get; set; }
+        public DbSet<BookSelling.Models.Category> Category { get; set; }
+        public DbSet<BookSelling.Models.User> User { get; set; }
+
     }
 }
