@@ -81,6 +81,7 @@ namespace BookSelling.Models
         /// <summary>
         /// Foreign Key of Category
         /// </summary>
+        [ForeignKey(nameof(Category))]
         public int CategoryID { get; set; }
         public Category Category { get; set; }
     }
