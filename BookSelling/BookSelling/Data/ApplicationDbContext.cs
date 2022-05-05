@@ -56,7 +56,7 @@ namespace BookSelling.Data
            new Category
            {
                IdCategory = 9,
-               NameCategory = "Manga"
+               NameCategory = "Erotic"
            },
            new Category
            {
