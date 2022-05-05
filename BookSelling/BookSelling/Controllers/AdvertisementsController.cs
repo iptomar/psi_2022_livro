@@ -96,7 +96,7 @@ namespace BookSelling.Controllers
             advertisement.sold = false;
             //Variable Visibility gets true value so it shows once created
             advertisement.Visibility = true;
-            
+
             //advertisement.Photo = newphoto.FileName;
 
 
@@ -134,7 +134,8 @@ namespace BookSelling.Controllers
                     //commit
                     await _context.SaveChangesAsync();
                 }
-                catch (Exception) {
+                catch (Exception)
+                {
                     // if the code arrives here, something wrong has appended
                     // we must fix the error, or at least report it
 
