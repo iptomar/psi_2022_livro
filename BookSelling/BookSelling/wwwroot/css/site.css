@@ -45,9 +45,9 @@ body {
     position: relative;
 }
 
-    .selectBox select {
-        width: 100%;
-    }
+.selectBox select {
+    width: 100%;
+}
 
 .overSelect {
     position: absolute;
@@ -65,17 +65,17 @@ body {
     overflow-y: scroll;
 }
 
-    #mySelectOptions label {
-        display: block;
-        font-weight: normal;
-        display: block;
-        white-space: nowrap;
-        min-height: 1.2em;
-        background-color: #ffffff00;
-        padding: 0 2.25rem 0 .75rem;
-        /* padding: .375rem 2.25rem .375rem .75rem; */
-    }
+#mySelectOptions label {
+    display: block;
+    font-weight: normal;
+    display: block;
+    white-space: nowrap;
+    min-height: 1.2em;
+    background-color: #ffffff00;
+    padding: 0 2.25rem 0 .75rem;
+    /* padding: .375rem 2.25rem .375rem .75rem; */
+}
 
-        #mySelectOptions label:hover {
-            background-color: #1e90ff;
-        }
+#mySelectOptions label:hover {
+    background-color: #1e90ff;
+}
