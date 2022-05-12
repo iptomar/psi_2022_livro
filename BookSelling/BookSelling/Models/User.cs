@@ -14,7 +14,7 @@ namespace BookSelling.Models
         /// </summary>
         [Key]
         public int UserID { get; set; }
-        
+
         /// <summary>
         /// Username for the User
         /// </summary>
