@@ -4,6 +4,11 @@ namespace BookSelling.Models
 {
     public class User
     {
+        public User()
+        {
+            // inicializar a lista de Categorias do Livro
+            ListaFavorite = new HashSet<Favorite>();
+        }
         /// <summary>
         /// User ID
         /// </summary>
@@ -49,6 +54,7 @@ namespace BookSelling.Models
         /// UserID will be use for the connection of the tables 
         /// </summary>
         public int UserNameID { get; set; }
-       
+
+        public ICollection<Favorite> ListaFavorite { get; set; }
     }
 }
