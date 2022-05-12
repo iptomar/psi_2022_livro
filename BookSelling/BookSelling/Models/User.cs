@@ -15,6 +15,10 @@ namespace BookSelling.Models
         /// </summary>
         public string UserName { get; set; }
 
+        /// <summary>
+        /// ligação entre os Utilizadores e a tabela de Autenticação
+        /// </summary>
+        public string UserNameId { get; set; }
 
         /// <summary>
         /// Email do Utilizador
