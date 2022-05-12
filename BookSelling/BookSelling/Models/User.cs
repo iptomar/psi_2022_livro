@@ -9,16 +9,11 @@ namespace BookSelling.Models
         /// </summary>
         [Key]
         public int UserID { get; set; }
-        
-        /// <summary>
-        /// Username for the User
-        /// </summary>
-        public string UserName { get; set; }
 
         /// <summary>
         /// ligação entre os Utilizadores e a tabela de Autenticação
         /// </summary>
-        public string UserNameId { get; set; }
+        public string IdUserName { get; set; }
 
         /// <summary>
         /// Email do Utilizador
@@ -49,10 +44,6 @@ namespace BookSelling.Models
         [Required]
         public int Telephone { get; set; }
 
-        /// <summary>
-        /// UserID will be use for the connection of the tables 
-        /// </summary>
-        public int UserNameID { get; set; }
        
     }
 }
