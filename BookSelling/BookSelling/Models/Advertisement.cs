@@ -77,5 +77,12 @@ namespace BookSelling.Models
         [ForeignKey(nameof(User))]
         public int UserID { get; set; }
         public User User { get; set; }
+
+        /// <summary>
+        /// Foreign Key of Category
+        /// </summary>
+        [ForeignKey(nameof(Category))]
+        public int CategoryID { get; set; }
+        public Category Category { get; set; }
     }
 }

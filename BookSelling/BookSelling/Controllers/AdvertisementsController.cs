@@ -64,7 +64,7 @@ namespace BookSelling.Controllers
         // GET: Advertisements/Create
         public IActionResult Create()
         {
-            ViewData["UserID"] = new SelectList(_context.Set<User>(), "UserID", "Email");
+            ViewData["UserID"] = new SelectList(_context.Set<Utilizadores>(), "UserID", "Email");
             return View();
         }
 
@@ -159,7 +159,7 @@ namespace BookSelling.Controllers
                 return RedirectToAction(nameof(Index));
 
             }
-            ViewData["UserID"] = new SelectList(_context.Set<User>(), "UserID", "Email", advertisement.UserID);
+            ViewData["UserID"] = new SelectList(_context.Set<Utilizadores>(), "UserID", "Email", advertisement.UserID);
             return View(advertisement);
         }
 
@@ -176,7 +176,7 @@ namespace BookSelling.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserID"] = new SelectList(_context.Set<User>(), "UserID", "Email", advertisement.UserID);
+            ViewData["UserID"] = new SelectList(_context.Set<Utilizadores>(), "UserID", "Email", advertisement.UserID);
             return View(advertisement);
         }
 
@@ -212,7 +212,7 @@ namespace BookSelling.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.Set<User>(), "UserID", "Email", advertisement.UserID);
+            ViewData["UserID"] = new SelectList(_context.Set<Utilizadores>(), "UserID", "Email", advertisement.UserID);
             return View(advertisement);
         }
 

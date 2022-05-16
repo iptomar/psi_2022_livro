@@ -106,7 +106,7 @@ namespace BookSelling.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BookSelling.Models.User", b =>
+            modelBuilder.Entity("BookSelling.Models.Utilizadores", b =>
                 {
                     b.Property<int>("UserID")
                         .ValueGeneratedOnAdd()
@@ -126,6 +126,10 @@ namespace BookSelling.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Reputation")
                         .HasColumnType("decimal(18,2)");
 
@@ -136,13 +140,9 @@ namespace BookSelling.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserNameID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("UserID");
 
-                    b.ToTable("User");
+                    b.ToTable("Utilizadores");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -349,6 +349,12 @@ namespace BookSelling.Data.Migrations
 
             modelBuilder.Entity("BookSelling.Models.Advertisement", b =>
                 {
+                    b.HasOne("BookSelling.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BookSelling.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
