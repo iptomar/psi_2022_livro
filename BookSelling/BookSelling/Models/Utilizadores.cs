@@ -2,7 +2,7 @@
 
 namespace BookSelling.Models
 {
-    public class User
+    public class Utilizadores
     {
         public User()
         {
@@ -23,7 +23,7 @@ namespace BookSelling.Models
         /// <summary>
         /// Ligação entre os Utilizadores e a tabela de Autenticação
         /// </summary>
-        public string UserNameID { get; set; }
+        public string ID { get; set; }
 
         /// <summary>
         /// Email do Utilizador
@@ -53,12 +53,6 @@ namespace BookSelling.Models
         /// </summary>
         [Required]
         public int Telephone { get; set; }
-
-        /// <summary>
-        /// UserID will be use for the connection of the tables 
-        /// </summary>
-        public int UserNameID { get; set; }
-
-        public ICollection<Favorite> ListaFavorite { get; set; }
+       
     }
 }

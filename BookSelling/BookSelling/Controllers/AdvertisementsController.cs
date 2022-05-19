@@ -64,7 +64,7 @@ namespace BookSelling.Controllers
         // GET: Advertisements/Create
         public IActionResult Create()
         {
-            ViewData["UserID"] = new SelectList(_context.Set<User>(), "UserID", "Email");
+            ViewData["UserID"] = new SelectList(_context.Set<Utilizadores>(), "UserID", "Email");
             return View();
         }
 
@@ -99,6 +99,13 @@ namespace BookSelling.Controllers
 
             //advertisement.Photo = newphoto.FileName;
 
+            foreach (Utilizadores user2 in _context.Utilizadores)
+            {
+                if (user2.Email == User.Identity.Name)
+                {
+                    advertisement.User = user2;
+                }
+            }
 
             if (newphoto == null)
             {
@@ -123,7 +130,7 @@ namespace BookSelling.Controllers
 
             }
 
-
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
 
             if (ModelState.IsValid)
             {
@@ -133,21 +140,21 @@ namespace BookSelling.Controllers
                     _context.Add(advertisement);
                     //commit
                     await _context.SaveChangesAsync();
-                }
-                catch (Exception)
-                {
-                    // if the code arrives here, something wrong has appended
-                    // we must fix the error, or at least report it
+        }
+            catch (Exception)
+            {
+                // if the code arrives here, something wrong has appended
+                // we must fix the error, or at least report it
 
-                    // add a model error to our code
-                    ModelState.AddModelError("", "Something went wrong. I can not store data on database");
-                    // eventually, before sending control to View
-                    // report error. For instance, write a message to the disc
-                    // or send an email to admin              
+                // add a model error to our code
+                ModelState.AddModelError("", "Something went wrong. I can not store data on database");
+                // eventually, before sending control to View
+                // report error. For instance, write a message to the disc
+                // or send an email to admin              
 
-                    // send control to View
-                    return View(advertisement);
-                }
+                // send control to View
+                return View(advertisement);
+            }
                 // save image file to disk
                 //ask the server what address it wants to use
                 string addressToStoreFile = _webHostEnvironment.WebRootPath;
@@ -159,8 +166,8 @@ namespace BookSelling.Controllers
 
                 return RedirectToAction(nameof(Index));
 
-            }
-            ViewData["UserID"] = new SelectList(_context.Set<User>(), "UserID", "Email", advertisement.UserID);
+        }
+        ViewData["UserID"] = new SelectList(_context.Set<Utilizadores>(), "UserID", "Email", advertisement.UserID);
             return View(advertisement);
         }
 
@@ -177,7 +184,7 @@ namespace BookSelling.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserID"] = new SelectList(_context.Set<User>(), "UserID", "Email", advertisement.UserID);
+            ViewData["UserID"] = new SelectList(_context.Set<Utilizadores>(), "UserID", "Email", advertisement.UserID);
             return View(advertisement);
         }
 
@@ -213,7 +220,7 @@ namespace BookSelling.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.Set<User>(), "UserID", "Email", advertisement.UserID);
+            ViewData["UserID"] = new SelectList(_context.Set<Utilizadores>(), "UserID", "Email", advertisement.UserID);
             return View(advertisement);
         }
 
