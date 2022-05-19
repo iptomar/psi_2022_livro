@@ -106,6 +106,27 @@ namespace BookSelling.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            /// <summary>
+            ///     User Name of the User
+            /// </summary>
+            [Required]
+            [Display(Name = "User Name")]
+            public string UserName { get; set; }
+
+            /// <summary>
+            ///     Area of the User
+            /// </summary>
+            [Required]
+            [Display(Name = "Area")]
+            public string Area { get; set; }
+
+            /// <summary>
+            ///     Phone Number of the User
+            /// </summary>
+            [Required]
+            [Display(Name = "PhoneNumber")]
+            public int PhoneNumber { get; set; }
         }
 
 
@@ -210,8 +231,9 @@ namespace BookSelling.Areas.Identity.Pages.Account
                     {
                         Email = user.Email,
                         ID = user.Id,
-                        Area = "Lisboa",
-                        UserName = "Celso"
+                        Area = Input.Area,
+                        UserName = Input.UserName,
+                        Telephone = Input.PhoneNumber
                     };
 
                     //Verifica se o email colocado é do gestor e se for coloca essa conta como gestor, caso contrário colocado a conta como cliente

@@ -76,7 +76,7 @@ namespace BookSelling.Models
         /// </summary>
         [ForeignKey(nameof(User))]
         public int UserID { get; set; }
-        public User User { get; set; }
+        public Utilizadores User { get; set; }
 
         /// <summary>
         /// Foreign Key of Category
