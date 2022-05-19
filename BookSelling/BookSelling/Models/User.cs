@@ -10,17 +10,18 @@ namespace BookSelling.Models
         [Key]
         public int UserID { get; set; }
 
+        
         /// <summary>
         /// ligação entre os Utilizadores e a tabela de Autenticação
         /// </summary>
-        public string IdUserName { get; set; }
+        public string? IdUserName { get; set; }
 
         /// <summary>
         /// Email do Utilizador
         /// </summary>
         [Required(ErrorMessage = "This is required!")]
         [StringLength(50, ErrorMessage = "The {0} can't be more than {1} letters.")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         /// <summary>
         /// Reputation of the User
@@ -31,7 +32,7 @@ namespace BookSelling.Models
         /// Area where the User lives
         /// </summary>
         [Required]
-        public string Area { get; set; }
+        public string? Area { get; set; }
 
         /// <summary>
         /// Number of the books sold
