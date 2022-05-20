@@ -74,8 +74,13 @@ namespace BookSelling.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         // 
-        public async Task<IActionResult> Create([Bind("AdID,TypeofAdd,Title,Description,Price,ISBM,Photo,UserID,sold,Visibility,DateTime")] Advertisement advertisement, IFormFile newphoto)
+        public async Task<IActionResult> Create([Bind("AdID,TypeofAdd,Title,Description,Price,ISBM,Photo,UserID,sold,Visibility,DateTime,User,Category")] Advertisement advertisement, IFormFile newphoto,String typeAd, ICollection<String> ChoosenCategory)
         {
+            ModelState.Remove("DateTime");
+            ModelState.Remove("User");
+            ModelState.Remove("Category");  
+            ModelState.Remove("Photo");  
+
             /* we must process the image
              * 
              * if file is null
@@ -97,6 +102,20 @@ namespace BookSelling.Controllers
             //Variable Visibility gets true value so it shows once created
             advertisement.Visibility = true;
 
+            foreach(String category in ChoosenCategory)
+            {
+                foreach (Category category2 in _context.Category)
+                {
+                    if (category2.NameCategory == category)
+                    {
+                        advertisement.AddCategory.Add(category2);
+                        advertisement.Category = category2;
+                        advertisement.CategoryID = category2.IdCategory;
+                    }
+                }
+            }
+
+            advertisement.TypeofAdd = typeAd;
             //advertisement.Photo = newphoto.FileName;
 
             foreach (Utilizadores user2 in _context.Utilizadores)
@@ -107,9 +126,15 @@ namespace BookSelling.Controllers
                 }
             }
 
+            if (ChoosenCategory.Count == 0)
+            {
+                ModelState.AddModelError("", "Please choose at least a category.");
+                return View(advertisement);
+            }
+
             if (newphoto == null)
             {
-                ModelState.AddModelError("", "Please insert an image with a valid format(png/jpeg)");
+                ModelState.AddModelError("", "Please insert an image with a valid format(png/jpeg).");
                 return View(advertisement);
             }
             else if (!(newphoto.ContentType == "image/jpeg" || newphoto.ContentType == "image/png" || newphoto.ContentType == "image/jpg"))

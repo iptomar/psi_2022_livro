@@ -4,6 +4,7 @@ using BookSelling.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookSelling.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220520002653_SolvedControllerAd")]
+    partial class SolvedControllerAd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,6 +39,7 @@ namespace BookSelling.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ISBM")
@@ -44,12 +47,14 @@ namespace BookSelling.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Photo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TypeofAdd")
@@ -85,9 +90,6 @@ namespace BookSelling.Data.Migrations
                     b.Property<int?>("AdvertisementAdID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CategoryIdCategory")
-                        .HasColumnType("int");
-
                     b.Property<string>("NameCategory")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -96,80 +98,18 @@ namespace BookSelling.Data.Migrations
 
                     b.HasIndex("AdvertisementAdID");
 
-                    b.HasIndex("CategoryIdCategory");
-
                     b.ToTable("Category");
 
                     b.HasData(
                         new
                         {
                             IdCategory = 1,
-                            NameCategory = "Action"
-                        },
-                        new
-                        {
-                            IdCategory = 2,
-                            NameCategory = "Adventure"
-                        },
-                        new
-                        {
-                            IdCategory = 3,
-                            NameCategory = "Comedy"
-                        },
-                        new
-                        {
-                            IdCategory = 4,
-                            NameCategory = "Drama"
-                        },
-                        new
-                        {
-                            IdCategory = 5,
                             NameCategory = "Fantasy"
                         },
                         new
                         {
-                            IdCategory = 6,
-                            NameCategory = "Science Fiction"
-                        },
-                        new
-                        {
-                            IdCategory = 7,
-                            NameCategory = "Romance"
-                        },
-                        new
-                        {
-                            IdCategory = 8,
-                            NameCategory = "Horror"
-                        },
-                        new
-                        {
-                            IdCategory = 9,
-                            NameCategory = "Erotic"
-                        },
-                        new
-                        {
-                            IdCategory = 10,
-                            NameCategory = "Thriller"
-                        },
-                        new
-                        {
-                            IdCategory = 11,
-                            NameCategory = "Kids"
-                        },
-                        new
-                        {
-                            IdCategory = 12,
-                            NameCategory = "Mistery"
-                        },
-                        new
-                        {
-                            IdCategory = 13,
-                            NameCategory = "Suspance"
-                        },
-                        new
-                        {
-                            IdCategory = 14,
-                            NameCategory = "Comics Books"
+                            IdCategory = 2,
+                            NameCategory = "Action"
                         });
                 });
 
@@ -204,6 +144,7 @@ namespace BookSelling.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserID");
@@ -437,29 +378,6 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("BookSelling.Models.Advertisement", null)
                         .WithMany("AddCategory")
                         .HasForeignKey("AdvertisementAdID");
-
-                    b.HasOne("BookSelling.Models.Category", null)
-                        .WithMany("CategoriesList")
-                        .HasForeignKey("CategoryIdCategory");
-                });
-
-            modelBuilder.Entity("BookSelling.Models.Favorite", b =>
-                {
-                    b.HasOne("BookSelling.Models.Advertisement", "Advertisement")
-                        .WithMany()
-                        .HasForeignKey("AdvertisementID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookSelling.Models.User", "User")
-                        .WithMany("ListaFavorite")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Advertisement");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -516,16 +434,6 @@ namespace BookSelling.Data.Migrations
             modelBuilder.Entity("BookSelling.Models.Advertisement", b =>
                 {
                     b.Navigation("AddCategory");
-                });
-
-            modelBuilder.Entity("BookSelling.Models.Category", b =>
-                {
-                    b.Navigation("CategoriesList");
-                });
-
-            modelBuilder.Entity("BookSelling.Models.User", b =>
-                {
-                    b.Navigation("ListaFavorite");
                 });
 #pragma warning restore 612, 618
         }
