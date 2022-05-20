@@ -31,6 +31,17 @@ namespace BookSelling.Controllers
                     }
                 }
             }
+
+            foreach (AdvertsCategory adC in _context.AdvertsCategory)
+            {
+                foreach (Category cat in _context.Category)
+                {
+                    if (cat.IdCategory == adC.CategoryFK)
+                    {
+                        adC.Category = cat;
+                    }
+                }
+            }
             //PT->Criar uma lista que vai receber os Ads pretendidos segundo o filtro, ou não(Caso nenhuma categoria seja escolhida)
             //EN->Create a list that will receive the pretended Ads according to the filter, or not(In the case that no category is choosen)
             List<Advertisement> ads = new List<Advertisement>();
@@ -66,11 +77,11 @@ namespace BookSelling.Controllers
                     {
                         //PT->Para cada categoria do "ad"(Advertisement)
                         //EN->To every category of "ad"(Advertisement)
-                        foreach (Category cat in ad.AddCategory)
+                        foreach (AdvertsCategory cat in _context.AdvertsCategory)
                         {
                             //PT->Se o nome da categoria do "ad"(Advertisement) for igual á categoria escolhida
                             //EN->If the name of the category of the "ad""(Advertisement) is equal to the category choosen
-                            if (cat.NameCategory == category)
+                            if (cat.Advertisement == ad && cat.Category.NameCategory == category)
                             {
                                 //PT->É adicionado o valor 1 á variável auxiliar
                                 //EN->It's added the value 1 to the auxiliar variable
