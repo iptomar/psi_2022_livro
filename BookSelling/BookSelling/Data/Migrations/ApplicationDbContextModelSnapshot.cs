@@ -115,12 +115,72 @@ namespace BookSelling.Data.Migrations
                         new
                         {
                             IdCategory = 1,
-                            NameCategory = "Fantasy"
+                            NameCategory = "Action"
                         },
                         new
                         {
                             IdCategory = 2,
-                            NameCategory = "Action"
+                            NameCategory = "Adventure"
+                        },
+                        new
+                        {
+                            IdCategory = 3,
+                            NameCategory = "Comedy"
+                        },
+                        new
+                        {
+                            IdCategory = 4,
+                            NameCategory = "Drama"
+                        },
+                        new
+                        {
+                            IdCategory = 5,
+                            NameCategory = "Fantasy"
+                        },
+                        new
+                        {
+                            IdCategory = 6,
+                            NameCategory = "Science Fiction"
+                        },
+                        new
+                        {
+                            IdCategory = 7,
+                            NameCategory = "Romance"
+                        },
+                        new
+                        {
+                            IdCategory = 8,
+                            NameCategory = "Horror"
+                        },
+                        new
+                        {
+                            IdCategory = 9,
+                            NameCategory = "Manga"
+                        },
+                        new
+                        {
+                            IdCategory = 10,
+                            NameCategory = "Thriller"
+                        },
+                        new
+                        {
+                            IdCategory = 11,
+                            NameCategory = "Kids"
+                        },
+                        new
+                        {
+                            IdCategory = 12,
+                            NameCategory = "Mistery"
+                        },
+                        new
+                        {
+                            IdCategory = 13,
+                            NameCategory = "Suspance"
+                        },
+                        new
+                        {
+                            IdCategory = 14,
+                            NameCategory = "Comics Books"
                         });
                 });
 
