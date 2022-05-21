@@ -85,9 +85,11 @@ namespace BookSelling.Data
            }
            );
         }
+
         public DbSet<BookSelling.Models.Advertisement> Advertisement { get; set; }
         public DbSet<BookSelling.Models.Category> Category { get; set; }
-        public DbSet<BookSelling.Models.User> User { get; set; }
+        public DbSet<BookSelling.Models.Utilizadores> Utilizadores { get; set; }
+        public DbSet<BookSelling.Models.AdvertsCategory> AdvertsCategory { get; set; }
 
     }
 }

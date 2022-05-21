@@ -74,8 +74,13 @@ namespace BookSelling.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         // 
-        public async Task<IActionResult> Create([Bind("AdID,TypeofAdd,Title,Description,Price,ISBM,Photo,UserID,sold,Visibility,DateTime")] Advertisement advertisement, IFormFile newphoto)
+        public async Task<IActionResult> Create([Bind("AdID,TypeofAdd,Title,Description,Price,ISBM,Photo,UserID,sold,Visibility,DateTime,User")] Advertisement advertisement, IFormFile newphoto,String typeAd, ICollection<String> ChoosenCategory)
         {
+            ModelState.Remove("DateTime");
+            ModelState.Remove("User");
+            ModelState.Remove("Category");  
+            ModelState.Remove("Photo");  
+
             /* we must process the image
              * 
              * if file is null
@@ -97,12 +102,42 @@ namespace BookSelling.Controllers
             //Variable Visibility gets true value so it shows once created
             advertisement.Visibility = true;
 
+            foreach(String category in ChoosenCategory)
+            {
+                foreach (Category category2 in _context.Category)
+                {
+                    if (category2.NameCategory == category)
+                    {
+                        var ac = new AdvertsCategory
+                        {
+                            Advertisement = advertisement,
+                            Category = category2
+                        };
+                        advertisement.CategoriesList.Add(ac);
+                    }
+                }
+            }
+
+            advertisement.TypeofAdd = typeAd;
             //advertisement.Photo = newphoto.FileName;
 
+            foreach (Utilizadores user2 in _context.Utilizadores)
+            {
+                if (user2.Email == User.Identity.Name)
+                {
+                    advertisement.User = user2;
+                }
+            }
+
+            if (ChoosenCategory.Count == 0)
+            {
+                ModelState.AddModelError("", "Please choose at least a category.");
+                return View(advertisement);
+            }
 
             if (newphoto == null)
             {
-                ModelState.AddModelError("", "Please insert an image with a valid format(png/jpeg)");
+                ModelState.AddModelError("", "Please insert an image with a valid format(png/jpeg).");
                 return View(advertisement);
             }
             else if (!(newphoto.ContentType == "image/jpeg" || newphoto.ContentType == "image/png" || newphoto.ContentType == "image/jpg"))
@@ -123,7 +158,7 @@ namespace BookSelling.Controllers
 
             }
 
-
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
 
             if (ModelState.IsValid)
             {
@@ -133,21 +168,21 @@ namespace BookSelling.Controllers
                     _context.Add(advertisement);
                     //commit
                     await _context.SaveChangesAsync();
-                }
-                catch (Exception)
-                {
-                    // if the code arrives here, something wrong has appended
-                    // we must fix the error, or at least report it
+        }
+            catch (Exception)
+            {
+                // if the code arrives here, something wrong has appended
+                // we must fix the error, or at least report it
 
-                    // add a model error to our code
-                    ModelState.AddModelError("", "Something went wrong. I can not store data on database");
-                    // eventually, before sending control to View
-                    // report error. For instance, write a message to the disc
-                    // or send an email to admin              
+                // add a model error to our code
+                ModelState.AddModelError("", "Something went wrong. I can not store data on database");
+                // eventually, before sending control to View
+                // report error. For instance, write a message to the disc
+                // or send an email to admin              
 
-                    // send control to View
-                    return View(advertisement);
-                }
+                // send control to View
+                return View(advertisement);
+            }
                 // save image file to disk
                 //ask the server what address it wants to use
                 string addressToStoreFile = _webHostEnvironment.WebRootPath;
@@ -159,8 +194,8 @@ namespace BookSelling.Controllers
 
                 return RedirectToAction(nameof(Index));
 
-            }
-            ViewData["UserID"] = new SelectList(_context.Set<Utilizadores>(), "UserID", "Email", advertisement.UserID);
+        }
+        ViewData["UserID"] = new SelectList(_context.Set<Utilizadores>(), "UserID", "Email", advertisement.UserID);
             return View(advertisement);
         }
 
