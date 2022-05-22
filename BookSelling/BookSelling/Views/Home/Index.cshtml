@@ -90,6 +90,28 @@ sadwqdasasds
         </select>
         <div class="overSelect"></div>
       </div>
+
+     
+      <!--------Search-Bar------------------>
+        <form id="content">
+            <input type="text" placeholder="Search Your Favorite Book" name="input" class="input" id="search-input">
+            <button type="reset" class="search" id="search-btn"></button>
+        </form>
+
+        <script type="text/javascript">
+        const input = document.getElementById("search-input");
+        const searchBtn = document.getElementById("search-btn");
+
+        const expand = () => {
+            searchBttn.classList.toggle("close");
+            input.classList.toggle("square");
+        };
+
+        </script>
+
+
+
+
       <div id="mySelectOptions">
         <label for="one"><input type="checkbox" id="one" onchange="checkboxStatusChange()" value="Action" />Action</label>
         <label for="two"><input type="checkbox" id="two" onchange="checkboxStatusChange()" value="Adventure" />Adventure</label>
@@ -109,4 +131,4 @@ sadwqdasasds
     </div>
   </div>
 
-</div>
+</div>  

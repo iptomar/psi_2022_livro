@@ -4,7 +4,9 @@ namespace BookSelling.Models
 {
     public class Utilizadores
     {
-        public User()
+        private HashSet<Favorite> ListaFavorite;
+
+        public Utilizadores()
         {
             // inicializar a lista de Categorias do Livro
             ListaFavorite = new HashSet<Favorite>();
