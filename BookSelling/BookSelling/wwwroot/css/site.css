@@ -15,6 +15,9 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: black;
+  color: #fff;
+  margin: 0;
 }
 
 .dropdown {
@@ -34,6 +37,27 @@ body {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+
+#content{
+    position: absolute;
+    height: 50px;
+    width: 300px;
+    margin-left: 796px;
+    top: 11%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#content.on{
+    -webkit-animation-name: in-out;
+    animation-name: in-out;
+    -webkit-animation-duration: 0.7s;
+    animation-duration: 0.7s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: 1;
+}
+
 
 /*---------*/
 
