@@ -56,7 +56,51 @@ body {
     animation-duration: 0.7s;
     -webkit-animation-timing-function: linear;
     -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
 }
+
+input{
+    box-sizing: border-box;
+    width: 50px;
+    height: 50px;
+    border: 4px solid #ffffff;
+    border-radius: 50%;
+    background: none;
+    color: #fff;
+    font-size: 14.4px;
+    font-weight: 400;
+    font-family: Roboto;
+    outline: 0;
+    -webkit-transition: width 0.4s ease-in-out, padding 0.2s;
+    transition: width 0.4s ease-in-out, border-radius 0.8s padding 0.2s;
+    -webkit-transition-delay: 0.4s;
+    transition-delay: 0.4s;
+    -webkit-transform: translate(-100%, -50%);
+    -ms-transform: translate(-100%, -50%);
+    transform: translate(-100%, -50%);
+}
+
+.search{
+    background: none;
+    position: absolute;
+    top: 0px;
+    left: 0;
+    height: 50px;
+    width: 50px;
+    padding: 0;
+    border-radius: 100%;
+    outline: 0;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    -webkit-transition: 0.2s ease-in-out;
+    transition: 0.2s ease-in-out;
+    -webkit-transform: translate(-100%, -50%);
+    -ms-transform: translate(-100%, -50%);
+}
+
+
+
 
 
 /*---------*/
