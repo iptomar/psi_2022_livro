@@ -61,6 +61,57 @@ namespace BookSelling.Controllers
             return View(advertisement);
         }
 
+        public async Task<IActionResult> Favorite(int id, Advertisement advertisement, Favorite favorite, Utilizadores utilizadores)
+        {
+            if (id != advertisement.AdID)
+            {
+                return NotFound();
+            }
+            // if advertisement not on favorite list, button shouldn't be pressed
+            // if this is true then the user already has added this advertisement to his favorite list
+            if (favorite.AdvertisementID == advertisement.AdID && favorite.UserID == utilizadores.UserID)
+            {
+                //then if he clicks on the button he would remove the advertisement from his favourite list
+                //var advertisement = await _context.Advertisement.FindAsync(id);
+                //_context.Advertisement.Remove(advertisement);
+                //await _context.SaveChangesAsync();
+                //return RedirectToAction(nameof(Index));
+
+
+            }
+            else
+            {
+                //then if he clicks on the button he would add the advertisement to his favourite list
+                favorite.UserID = utilizadores.UserID;
+                favorite.AdvertisementID = advertisement.AdID;
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        //add advertisement data to database
+                        _context.Add(favorite);
+                        //commit
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception)
+                    {
+                        // if the code arrives here, something wrong has appended
+                        // we must fix the error, or at least report it
+
+                        // add a model error to our code
+                        ModelState.AddModelError("", "Something went wrong. I can not add it to the favorite list");
+                        // eventually, before sending control to View
+                        // report error. For instance, write a message to the disc
+                        // or send an email to admin              
+
+                        // send control to View
+                        return View(advertisement);
+                    }
+                }
+            }
+        }
+
         // GET: Advertisements/Create
         public IActionResult Create()
         {
