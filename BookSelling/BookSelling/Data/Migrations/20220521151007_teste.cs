@@ -5,10 +5,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BookSelling.Data.Migrations
 {
-    public partial class DataBaseUpdated : Migration
+    public partial class teste : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Category",
+                columns: table => new
+                {
+                    IdCategory = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NameCategory = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Category", x => x.IdCategory);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Utilizadores",
                 columns: table => new
@@ -43,8 +56,7 @@ namespace BookSelling.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Visibility = table.Column<bool>(type: "bit", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserID = table.Column<int>(type: "int", nullable: false),
-                    CategoryID = table.Column<int>(type: "int", nullable: false)
+                    UserID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -58,55 +70,51 @@ namespace BookSelling.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "AdvertsCategory",
                 columns: table => new
                 {
-                    IdCategory = table.Column<int>(type: "int", nullable: false)
+                    IdAdvertsCategory = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NameCategory = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AdvertisementAdID = table.Column<int>(type: "int", nullable: true),
-                    CategoryIdCategory = table.Column<int>(type: "int", nullable: true)
+                    CategoryFK = table.Column<int>(type: "int", nullable: false),
+                    AdvertisementFK = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.IdCategory);
+                    table.PrimaryKey("PK_AdvertsCategory", x => x.IdAdvertsCategory);
                     table.ForeignKey(
-                        name: "FK_Category_Advertisement_AdvertisementAdID",
-                        column: x => x.AdvertisementAdID,
+                        name: "FK_AdvertsCategory_Advertisement_AdvertisementFK",
+                        column: x => x.AdvertisementFK,
                         principalTable: "Advertisement",
-                        principalColumn: "AdID");
+                        principalColumn: "AdID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Category_Category_CategoryIdCategory",
-                        column: x => x.CategoryIdCategory,
+                        name: "FK_AdvertsCategory_Category_CategoryFK",
+                        column: x => x.CategoryFK,
                         principalTable: "Category",
-                        principalColumn: "IdCategory");
+                        principalColumn: "IdCategory",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Category",
-                columns: new[] { "IdCategory", "AdvertisementAdID", "CategoryIdCategory", "NameCategory" },
+                columns: new[] { "IdCategory", "NameCategory" },
                 values: new object[,]
                 {
-                    { 1, null, null, "Action" },
-                    { 2, null, null, "Adventure" },
-                    { 3, null, null, "Comedy" },
-                    { 4, null, null, "Drama" },
-                    { 5, null, null, "Fantasy" },
-                    { 6, null, null, "Science Fiction" },
-                    { 7, null, null, "Romance" },
-                    { 8, null, null, "Horror" },
-                    { 9, null, null, "Erotic" },
-                    { 10, null, null, "Thriller" },
-                    { 11, null, null, "Kids" },
-                    { 12, null, null, "Mistery" },
-                    { 13, null, null, "Suspance" },
-                    { 14, null, null, "Comics Books" }
+                    { 1, "Action" },
+                    { 2, "Adventure" },
+                    { 3, "Comedy" },
+                    { 4, "Drama" },
+                    { 5, "Fantasy" },
+                    { 6, "Science Fiction" },
+                    { 7, "Romance" },
+                    { 8, "Horror" },
+                    { 9, "Manga" },
+                    { 10, "Thriller" },
+                    { 11, "Kids" },
+                    { 12, "Mistery" },
+                    { 13, "Suspance" },
+                    { 14, "Comics Books" }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Advertisement_CategoryID",
-                table: "Advertisement",
-                column: "CategoryID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Advertisement_UserID",
@@ -114,35 +122,26 @@ namespace BookSelling.Data.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Category_AdvertisementAdID",
-                table: "Category",
-                column: "AdvertisementAdID");
+                name: "IX_AdvertsCategory_AdvertisementFK",
+                table: "AdvertsCategory",
+                column: "AdvertisementFK");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Category_CategoryIdCategory",
-                table: "Category",
-                column: "CategoryIdCategory");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Advertisement_Category_CategoryID",
-                table: "Advertisement",
-                column: "CategoryID",
-                principalTable: "Category",
-                principalColumn: "IdCategory",
-                onDelete: ReferentialAction.Cascade);
+                name: "IX_AdvertsCategory_CategoryFK",
+                table: "AdvertsCategory",
+                column: "CategoryFK");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Advertisement_Category_CategoryID",
-                table: "Advertisement");
-
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "AdvertsCategory");
 
             migrationBuilder.DropTable(
                 name: "Advertisement");
+
+            migrationBuilder.DropTable(
+                name: "Category");
 
             migrationBuilder.DropTable(
                 name: "Utilizadores");
