@@ -17,22 +17,31 @@ body {
   margin-bottom: 60px;
 }
 
+/*Imagem para dropdown*/
 .dropdown {
     position: relative;
     display: inline-block;
 }
 
+/*Lista do Dropdown (Posição do texto está no loginpartial) */
 .dropdown-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 50px;
     z-index: auto;
-    transform: translateX(-20%);
+    transform: translateX(-45%);
 }
 
+/*Aparece a lista com hover no imagem*/
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+/*Aparece selecionado a opção com o hover*/
+.dropdown-content form:hover {
+    display:block;
+    background-color:lightgray;
 }
 
 /*---------*/
@@ -57,6 +66,7 @@ body {
     bottom: 0;
 }
 
+/*Background das opções das categorias*/
 #mySelectOptions {
     display: none;
     border: 0.5px #7c7c7c solid;
@@ -65,6 +75,7 @@ body {
     overflow-y: scroll;
 }
 
+/**/
 #mySelectOptions label {
     display: block;
     font-weight: normal;
@@ -76,6 +87,7 @@ body {
     /* padding: .375rem 2.25rem .375rem .75rem; */
 }
 
+/*Hover das categorias dos livros*/
 #mySelectOptions label:hover {
     background-color: #1e90ff;
 }
@@ -93,6 +105,8 @@ body {
 }
 
 /**********************/
+
+
 div.Advertisement {
     position: relative;
     width: 200px;
@@ -102,6 +116,7 @@ div.Advertisement {
     margin-bottom: 50px;
 }
 
+/**/
 img.PhotoAdvertisement {
     width: 200px;
     height: 250px;
@@ -124,7 +139,7 @@ div.overlay {
 }
 
 div.text {
-    color: white;
+    color: red;
     font-size: 20px;
     position: absolute;
     top: 50%;
@@ -136,6 +151,7 @@ div.text {
     font-weight: bold;
 }
 
+/**/
 div.Advertisement:hover .overlay {
     opacity: 0.70;
 }
