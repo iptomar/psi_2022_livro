@@ -61,21 +61,12 @@ namespace BookSelling.Controllers
             return View(advertisement);
         }
 
-        // GET: Advertisements/Create
-        [HttpGet]
-        public IActionResult Favorite()
-        {
-            ViewData["Favorite"] = new SelectList(_context.Set<Favorite>(), "UtilizadoresID", "AdvertisementID");
-            return View();
-        }
+
 
         [HttpPost]
-        public async Task<IActionResult> Favorite(int id, Advertisement advertisement)
+        public async Task<IActionResult> AddFavorite(Advertisement advertisement)
         {
-            if (id != advertisement.AdID)
-            {
-                return NotFound();
-            }
+
             // if advertisement not on favorite list, button shouldn't be pressed
             // if this is true then the user already has added this advertisement to his favorite list
             var flag = 0;
@@ -134,14 +125,14 @@ namespace BookSelling.Controllers
                     }
                 }
 
-                
+
 
 
 
             }
             flag = 0;
             iddouser = 0;
-            
+
             return View(advertisement);
         }
 
