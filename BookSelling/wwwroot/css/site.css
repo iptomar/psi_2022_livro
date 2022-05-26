@@ -1,0 +1,141 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 50px;
+    z-index: auto;
+    transform: translateX(-20%);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/*---------*/
+
+.multiselect {
+    width: 100%;
+}
+
+.selectBox {
+    position: relative;
+}
+
+.selectBox select {
+    width: 100%;
+}
+
+.overSelect {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+#mySelectOptions {
+    display: none;
+    border: 0.5px #7c7c7c solid;
+    background-color: #ffffff;
+    max-height: 150px;
+    overflow-y: scroll;
+}
+
+#mySelectOptions label {
+    display: block;
+    font-weight: normal;
+    display: block;
+    white-space: nowrap;
+    min-height: 1.2em;
+    background-color: #ffffff00;
+    padding: 0 2.25rem 0 .75rem;
+    /* padding: .375rem 2.25rem .375rem .75rem; */
+}
+
+#mySelectOptions label:hover {
+    background-color: #1e90ff;
+}
+
+/***********************/
+
+#checkboxes label {
+    float: left;
+}
+
+#checkboxes ul {
+    margin: 0;
+    list-style: none;
+    float: left;
+}
+
+/**********************/
+div.Advertisement {
+    position: relative;
+    width: 200px;
+    height: 250px;
+    float: left;
+    margin-left: 50px;
+    margin-bottom: 50px;
+}
+
+img.PhotoAdvertisement {
+    width: 200px;
+    height: 250px;
+    border: 4px solid black;
+    object-fit: fill;
+}
+
+div.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: navy;
+    cursor: pointer;
+}
+
+div.text {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-weight: bold;
+}
+
+div.Advertisement:hover .overlay {
+    opacity: 0.70;
+}
