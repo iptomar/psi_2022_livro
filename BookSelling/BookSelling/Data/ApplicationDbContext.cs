@@ -12,6 +12,12 @@ namespace BookSelling.Data
              protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            foreach(var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
+
             modelBuilder.Entity<Category>().HasData(
            new Category
            {
@@ -89,6 +95,9 @@ namespace BookSelling.Data
         public DbSet<BookSelling.Models.Advertisement> Advertisement { get; set; }
         public DbSet<BookSelling.Models.Category> Category { get; set; }
         public DbSet<BookSelling.Models.Utilizadores> Utilizadores { get; set; }
+        public DbSet<BookSelling.Models.Favorite> Favorites { get; set; }
+
+
 
     }
 }

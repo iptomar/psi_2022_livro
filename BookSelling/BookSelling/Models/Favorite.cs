@@ -15,9 +15,9 @@ namespace BookSelling.Models
         public int AdvertisementID { get; set; }
         public Advertisement Advertisement { get; set; }
 
-        [ForeignKey(nameof(User))]
-        public int UserID { get; set; }
-        public User User { get; set; }
+        [ForeignKey(nameof(Utilizadores))]
+        public int UtilizadoresID { get; set; }
+        public Utilizadores Utilizadores { get; set; }
 
 
     }

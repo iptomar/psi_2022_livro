@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BookSelling.Data;
+using BookSelling.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BookSelling.Data;
-using BookSelling.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BookSelling.Controllers
 {
@@ -61,7 +61,16 @@ namespace BookSelling.Controllers
             return View(advertisement);
         }
 
-        public async Task<IActionResult> Favorite(int id, Advertisement advertisement, Favorite favorite, Utilizadores utilizadores)
+        // GET: Advertisements/Create
+        [HttpGet]
+        public IActionResult Favorite()
+        {
+            ViewData["Favorite"] = new SelectList(_context.Set<Favorite>(), "UtilizadoresID", "AdvertisementID");
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Favorite(int id, Advertisement advertisement)
         {
             if (id != advertisement.AdID)
             {
@@ -69,27 +78,42 @@ namespace BookSelling.Controllers
             }
             // if advertisement not on favorite list, button shouldn't be pressed
             // if this is true then the user already has added this advertisement to his favorite list
-            if (favorite.AdvertisementID == advertisement.AdID && favorite.UserID == utilizadores.UserID)
+            var flag = 0;
+            int iddouser = 0;
+            foreach (Favorite aux in _context.Favorites)
             {
-                //then if he clicks on the button he would remove the advertisement from his favourite list
-                //var advertisement = await _context.Advertisement.FindAsync(id);
-                //_context.Advertisement.Remove(advertisement);
-                //await _context.SaveChangesAsync();
-                //return RedirectToAction(nameof(Index));
 
+                if (aux.AdvertisementID == advertisement.AdID && aux.Utilizadores.Email == User.Identity.Name)
+                {
+                    flag++;
+                    _context.Remove(aux);
+                    await _context.SaveChangesAsync();
 
+                }
             }
-            else
+            if (flag == 0)
             {
-                //then if he clicks on the button he would add the advertisement to his favourite list
-                favorite.UserID = utilizadores.UserID;
-                favorite.AdvertisementID = advertisement.AdID;
+                //this means that the advertisement is not favorite yet
+                foreach (Utilizadores axax in _context.Utilizadores)
+                {
+                    if (axax.ID == User.Identity.Name)
+                    {
+                        iddouser = axax.UserID;
+                    }
+
+                }
+                var favorite = new Favorite
+                {
+                    AdvertisementID = advertisement.AdID,
+                    UtilizadoresID = iddouser
+                };
+
 
                 if (ModelState.IsValid)
                 {
                     try
                     {
-                        //add advertisement data to database
+                        //add Favorite data to database
                         _context.Add(favorite);
                         //commit
                         await _context.SaveChangesAsync();
@@ -109,7 +133,16 @@ namespace BookSelling.Controllers
                         return View(advertisement);
                     }
                 }
+
+                
+
+
+
             }
+            flag = 0;
+            iddouser = 0;
+            
+            return View(advertisement);
         }
 
         // GET: Advertisements/Create
@@ -125,12 +158,12 @@ namespace BookSelling.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         // 
-        public async Task<IActionResult> Create([Bind("AdID,TypeofAdd,Title,Description,Price,ISBM,Photo,UserID,sold,Visibility,DateTime,User,Category")] Advertisement advertisement, IFormFile newphoto,String typeAd, ICollection<String> ChoosenCategory)
+        public async Task<IActionResult> Create([Bind("AdID,TypeofAdd,Title,Description,Price,ISBM,Photo,UserID,sold,Visibility,DateTime,User,Category")] Advertisement advertisement, IFormFile newphoto, String typeAd, ICollection<String> ChoosenCategory)
         {
             ModelState.Remove("DateTime");
             ModelState.Remove("User");
-            ModelState.Remove("Category");  
-            ModelState.Remove("Photo");  
+            ModelState.Remove("Category");
+            ModelState.Remove("Photo");
 
             /* we must process the image
              * 
@@ -153,7 +186,7 @@ namespace BookSelling.Controllers
             //Variable Visibility gets true value so it shows once created
             advertisement.Visibility = true;
 
-            foreach(String category in ChoosenCategory)
+            foreach (String category in ChoosenCategory)
             {
                 foreach (Category category2 in _context.Category)
                 {
@@ -216,21 +249,21 @@ namespace BookSelling.Controllers
                     _context.Add(advertisement);
                     //commit
                     await _context.SaveChangesAsync();
-        }
-            catch (Exception)
-            {
-                // if the code arrives here, something wrong has appended
-                // we must fix the error, or at least report it
+                }
+                catch (Exception)
+                {
+                    // if the code arrives here, something wrong has appended
+                    // we must fix the error, or at least report it
 
-                // add a model error to our code
-                ModelState.AddModelError("", "Something went wrong. I can not store data on database");
-                // eventually, before sending control to View
-                // report error. For instance, write a message to the disc
-                // or send an email to admin              
+                    // add a model error to our code
+                    ModelState.AddModelError("", "Something went wrong. I can not store data on database");
+                    // eventually, before sending control to View
+                    // report error. For instance, write a message to the disc
+                    // or send an email to admin              
 
-                // send control to View
-                return View(advertisement);
-            }
+                    // send control to View
+                    return View(advertisement);
+                }
                 // save image file to disk
                 //ask the server what address it wants to use
                 string addressToStoreFile = _webHostEnvironment.WebRootPath;
@@ -242,8 +275,8 @@ namespace BookSelling.Controllers
 
                 return RedirectToAction(nameof(Index));
 
-        }
-        ViewData["UserID"] = new SelectList(_context.Set<Utilizadores>(), "UserID", "Email", advertisement.UserID);
+            }
+            ViewData["UserID"] = new SelectList(_context.Set<Utilizadores>(), "UserID", "Email", advertisement.UserID);
             return View(advertisement);
         }
 
