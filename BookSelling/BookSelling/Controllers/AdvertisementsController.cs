@@ -43,11 +43,33 @@ namespace BookSelling.Controllers
         }
 
         // GET: Advertisements/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int FavoriteValue)
         {
             if (id == null)
             {
                 return NotFound();
+            }
+
+            ViewBag.FavoriteValue = 0;
+
+
+            foreach (Utilizadores us in _context.Utilizadores)
+            {
+                foreach (var item in _context.Favorites)
+                {
+                    if (us.UserID == item.UtilizadoresID)
+                    {
+                        item.Utilizadores = us;
+                    }
+                }
+            }
+
+            foreach (var item in _context.Favorites)
+            {
+                if (User.Identity.Name == item.Utilizadores.Email)
+                {
+                    ViewBag.FavoriteValue = 1;
+                }
             }
 
             var advertisement = await _context.Advertisement
@@ -64,22 +86,36 @@ namespace BookSelling.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AddFavorite(Advertisement advertisement)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddFavorite(int id)
         {
 
             // if advertisement not on favorite list, button shouldn't be pressed
             // if this is true then the user already has added this advertisement to his favorite list
             var flag = 0;
+            var advert = new Advertisement();
+            var user = new Utilizadores();
             int iddouser = 0;
             foreach (Favorite aux in _context.Favorites)
             {
-
-                if (aux.AdvertisementID == advertisement.AdID && aux.Utilizadores.Email == User.Identity.Name)
+                foreach (Utilizadores us in _context.Utilizadores)
+                {
+                    if (us.UserID == aux.UtilizadoresID)
+                    {
+                        aux.Utilizadores = us;
+                    }
+                }
+                foreach (Advertisement a in _context.Advertisement)
+                {
+                    if (a.AdID == aux.AdvertisementID)
+                    {
+                        aux.Advertisement = a;
+                    }
+                }
+                if (aux.AdvertisementID == id && aux.Utilizadores.Email == User.Identity.Name)
                 {
                     flag++;
                     _context.Remove(aux);
-                    await _context.SaveChangesAsync();
-
                 }
             }
             if (flag == 0)
@@ -87,18 +123,35 @@ namespace BookSelling.Controllers
                 //this means that the advertisement is not favorite yet
                 foreach (Utilizadores axax in _context.Utilizadores)
                 {
-                    if (axax.ID == User.Identity.Name)
+                    if (axax.Email == User.Identity.Name)
                     {
                         iddouser = axax.UserID;
+                        user = axax;
                     }
 
                 }
+                foreach (Advertisement ad2 in _context.Advertisement)
+                {
+                    if (ad2.AdID == id)
+                    {
+                        advert = ad2;
+                    }
+                }
                 var favorite = new Favorite
                 {
-                    AdvertisementID = advertisement.AdID,
+                    AdvertisementID = id,
+                    Advertisement = advert,
+                    Utilizadores = user,
                     UtilizadoresID = iddouser
                 };
 
+                //foreach (Advertisement ad2 in _context.Advertisement)
+                //{
+                //    if (ad2.AdID == id)
+                //    {
+                //        ad2.Favorites.Add(favorite);
+                //    }
+                //}
 
                 if (ModelState.IsValid)
                 {
@@ -121,19 +174,14 @@ namespace BookSelling.Controllers
                         // or send an email to admin              
 
                         // send control to View
-                        return View(advertisement);
+                        return RedirectToAction(nameof(Details), new { id = id });
                     }
                 }
 
-
-
-
-
             }
-            flag = 0;
-            iddouser = 0;
 
-            return View(advertisement);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Details), new { id = id });
         }
 
         // GET: Advertisements/Create

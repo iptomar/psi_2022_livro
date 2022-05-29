@@ -79,7 +79,48 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.AdID">Edit</a> |
-    <a asp-action="Index">Back to List</a> |
-    <a asp-action="AddFavorite">Favorite</a>
+    @*<a asp-action="AddFavorite">Favorite</a>*@
+    
+
+    @*@using (Html.BeginForm("AddFavorite", "Advertisements", FormMethod.Post))
+    {
+        <input type="hidden" name="id" value="@Model.AdID"/>
+        <input type="hidden" name="ad" value="@Model"/>
+        <input type="submit" value="Favorite" class="btn btn-primary" />
+    }*@
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        //string data = TempData.Peek("MyTempData").ToString();
+
+        @if (1 == 1)
+        {
+            if (ViewBag.FavoriteValue == 0)
+            {
+                <form asp-action="AddFavorite">
+                    <div style="">
+                        <input type="hidden" name="id" value="@Model.AdID" />
+                        <div style="">
+                            <a asp-action="Edit" asp-route-id="@Model?.AdID">Edit</a> |
+                            <a asp-action="Index">Back to List</a> | 
+                            <input type="submit" value="Favorite" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <form asp-action="AddFavorite">
+                    <div style="">
+                        <input type="hidden" name="id" value="@Model.AdID" />
+                        <div style="">
+                            <a asp-action="Edit" asp-route-id="@Model?.AdID">Edit</a> |
+                            <a asp-action="Index">Back to List</a> |
+                            <input type="submit" value="Favorite" class="btn btn-danger" />
+                        </div>
+                    </div>
+                </form>
+            }
+        }
+    }
 </div>
