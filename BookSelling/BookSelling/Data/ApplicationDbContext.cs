@@ -62,7 +62,7 @@ namespace BookSelling.Data
            new Category
            {
                IdCategory = 9,
-               NameCategory = "Erotic"
+               NameCategory = "Manga"
            },
            new Category
            {
@@ -96,7 +96,7 @@ namespace BookSelling.Data
         public DbSet<BookSelling.Models.Category> Category { get; set; }
         public DbSet<BookSelling.Models.Utilizadores> Utilizadores { get; set; }
         public DbSet<BookSelling.Models.Favorite> Favorites { get; set; }
-
+        public DbSet<BookSelling.Models.AdvertsCategory> AdvertsCategory { get; set; }
 
 
     }

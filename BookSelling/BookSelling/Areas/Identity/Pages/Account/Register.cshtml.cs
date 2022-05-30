@@ -23,6 +23,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookSelling.Areas.Identity.Pages.Account
 {
+    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -129,11 +130,21 @@ namespace BookSelling.Areas.Identity.Pages.Account
             public int PhoneNumber { get; set; }
         }
 
-
+        /*
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        }*/
+
+        /// <summary>
+        /// Metodo a ser executado pela pagina, quando o HTTP é invocado em GET
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        public void OnGet(string returnUrl = null)
+        {
+            ReturnUrl = returnUrl;
+            //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
         //public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -284,14 +295,27 @@ namespace BookSelling.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    // estamos em condições de guardar os dados na BD
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+
+                    User utilizador = new User
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        Email = user.Email,
+                        IdUserName = user.Id
+                    };
+
+                  
+
+                    try
+                    {
+
+
+                        await _context.AddAsync(utilizador);
+                        await _context.SaveChangesAsync(); // 'commit' da adição
+                                                           // Enviar para o utilizador para a página de confirmação da criaçao de Registo
+                        return RedirectToPage("RegisterConfirmation");
                     }
-                    else
+                    catch (Exception)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);

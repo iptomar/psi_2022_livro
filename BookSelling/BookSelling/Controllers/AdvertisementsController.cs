@@ -197,7 +197,8 @@ namespace BookSelling.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         // 
-        public async Task<IActionResult> Create([Bind("AdID,TypeofAdd,Title,Description,Price,ISBM,Photo,UserID,sold,Visibility,DateTime,User,Category")] Advertisement advertisement, IFormFile newphoto, String typeAd, ICollection<String> ChoosenCategory)
+
+        public async Task<IActionResult> Create([Bind("AdID,TypeofAdd,Title,Description,Price,ISBM,Photo,UserID,sold,Visibility,DateTime,User")] Advertisement advertisement, IFormFile newphoto,String typeAd, ICollection<String> ChoosenCategory)
         {
             ModelState.Remove("DateTime");
             ModelState.Remove("User");
@@ -231,9 +232,12 @@ namespace BookSelling.Controllers
                 {
                     if (category2.NameCategory == category)
                     {
-                        advertisement.AddCategory.Add(category2);
-                        advertisement.Category = category2;
-                        advertisement.CategoryID = category2.IdCategory;
+                        var ac = new AdvertsCategory
+                        {
+                            Advertisement = advertisement,
+                            Category = category2
+                        };
+                        advertisement.CategoriesList.Add(ac);
                     }
                 }
             }
