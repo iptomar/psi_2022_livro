@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BookSelling.Data;
+using BookSelling.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BookSelling.Data;
-using BookSelling.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BookSelling.Controllers
 {
@@ -43,11 +43,33 @@ namespace BookSelling.Controllers
         }
 
         // GET: Advertisements/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int FavoriteValue)
         {
             if (id == null)
             {
                 return NotFound();
+            }
+
+            ViewBag.FavoriteValue = 0;
+
+
+            foreach (Utilizadores us in _context.Utilizadores)
+            {
+                foreach (var item in _context.Favorites)
+                {
+                    if (us.UserID == item.UtilizadoresID)
+                    {
+                        item.Utilizadores = us;
+                    }
+                }
+            }
+
+            foreach (var item in _context.Favorites)
+            {
+                if (User.Identity.Name == item.Utilizadores.Email)
+                {
+                    ViewBag.FavoriteValue = 1;
+                }
             }
 
             var advertisement = await _context.Advertisement
@@ -59,6 +81,107 @@ namespace BookSelling.Controllers
             }
 
             return View(advertisement);
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddFavorite(int id)
+        {
+
+            // if advertisement not on favorite list, button shouldn't be pressed
+            // if this is true then the user already has added this advertisement to his favorite list
+            var flag = 0;
+            var advert = new Advertisement();
+            var user = new Utilizadores();
+            int iddouser = 0;
+            foreach (Favorite aux in _context.Favorites)
+            {
+                foreach (Utilizadores us in _context.Utilizadores)
+                {
+                    if (us.UserID == aux.UtilizadoresID)
+                    {
+                        aux.Utilizadores = us;
+                    }
+                }
+                foreach (Advertisement a in _context.Advertisement)
+                {
+                    if (a.AdID == aux.AdvertisementID)
+                    {
+                        aux.Advertisement = a;
+                    }
+                }
+                if (aux.AdvertisementID == id && aux.Utilizadores.Email == User.Identity.Name)
+                {
+                    flag++;
+                    _context.Remove(aux);
+                }
+            }
+            if (flag == 0)
+            {
+                //this means that the advertisement is not favorite yet
+                foreach (Utilizadores axax in _context.Utilizadores)
+                {
+                    if (axax.Email == User.Identity.Name)
+                    {
+                        iddouser = axax.UserID;
+                        user = axax;
+                    }
+
+                }
+                foreach (Advertisement ad2 in _context.Advertisement)
+                {
+                    if (ad2.AdID == id)
+                    {
+                        advert = ad2;
+                    }
+                }
+                var favorite = new Favorite
+                {
+                    AdvertisementID = id,
+                    Advertisement = advert,
+                    Utilizadores = user,
+                    UtilizadoresID = iddouser
+                };
+
+                //foreach (Advertisement ad2 in _context.Advertisement)
+                //{
+                //    if (ad2.AdID == id)
+                //    {
+                //        ad2.Favorites.Add(favorite);
+                //    }
+                //}
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        //add Favorite data to database
+                        _context.Add(favorite);
+                        //commit
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception)
+                    {
+                        // if the code arrives here, something wrong has appended
+                        // we must fix the error, or at least report it
+
+                        // add a model error to our code
+                        ModelState.AddModelError("", "Something went wrong. I can not add it to the favorite list");
+                        // eventually, before sending control to View
+                        // report error. For instance, write a message to the disc
+                        // or send an email to admin              
+
+                        // send control to View
+                        return RedirectToAction(nameof(Details), new { id = id });
+                    }
+                }
+
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Details), new { id = id });
         }
 
         // GET: Advertisements/Create
@@ -74,12 +197,13 @@ namespace BookSelling.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         // 
+
         public async Task<IActionResult> Create([Bind("AdID,TypeofAdd,Title,Description,Price,ISBM,Photo,UserID,sold,Visibility,DateTime,User")] Advertisement advertisement, IFormFile newphoto,String typeAd, ICollection<String> ChoosenCategory)
         {
             ModelState.Remove("DateTime");
             ModelState.Remove("User");
-            ModelState.Remove("Category");  
-            ModelState.Remove("Photo");  
+            ModelState.Remove("Category");
+            ModelState.Remove("Photo");
 
             /* we must process the image
              * 
@@ -102,7 +226,7 @@ namespace BookSelling.Controllers
             //Variable Visibility gets true value so it shows once created
             advertisement.Visibility = true;
 
-            foreach(String category in ChoosenCategory)
+            foreach (String category in ChoosenCategory)
             {
                 foreach (Category category2 in _context.Category)
                 {
@@ -168,21 +292,21 @@ namespace BookSelling.Controllers
                     _context.Add(advertisement);
                     //commit
                     await _context.SaveChangesAsync();
-        }
-            catch (Exception)
-            {
-                // if the code arrives here, something wrong has appended
-                // we must fix the error, or at least report it
+                }
+                catch (Exception)
+                {
+                    // if the code arrives here, something wrong has appended
+                    // we must fix the error, or at least report it
 
-                // add a model error to our code
-                ModelState.AddModelError("", "Something went wrong. I can not store data on database");
-                // eventually, before sending control to View
-                // report error. For instance, write a message to the disc
-                // or send an email to admin              
+                    // add a model error to our code
+                    ModelState.AddModelError("", "Something went wrong. I can not store data on database");
+                    // eventually, before sending control to View
+                    // report error. For instance, write a message to the disc
+                    // or send an email to admin              
 
-                // send control to View
-                return View(advertisement);
-            }
+                    // send control to View
+                    return View(advertisement);
+                }
                 // save image file to disk
                 //ask the server what address it wants to use
                 string addressToStoreFile = _webHostEnvironment.WebRootPath;
@@ -194,8 +318,8 @@ namespace BookSelling.Controllers
 
                 return RedirectToAction(nameof(Index));
 
-        }
-        ViewData["UserID"] = new SelectList(_context.Set<Utilizadores>(), "UserID", "Email", advertisement.UserID);
+            }
+            ViewData["UserID"] = new SelectList(_context.Set<Utilizadores>(), "UserID", "Email", advertisement.UserID);
             return View(advertisement);
         }
 

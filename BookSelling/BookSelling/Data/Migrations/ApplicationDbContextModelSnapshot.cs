@@ -184,6 +184,29 @@ namespace BookSelling.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("BookSelling.Models.Favorite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AdvertisementID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UtilizadoresID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdvertisementID");
+
+                    b.HasIndex("UtilizadoresID");
+
+                    b.ToTable("Favorites");
+                });
+
             modelBuilder.Entity("BookSelling.Models.Utilizadores", b =>
                 {
                     b.Property<int>("UserID")
@@ -205,7 +228,6 @@ namespace BookSelling.Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Reputation")
@@ -427,15 +449,51 @@ namespace BookSelling.Data.Migrations
 
             modelBuilder.Entity("BookSelling.Models.Advertisement", b =>
                 {
+                // esta parte vem do pull request do add favorite se causar problemas apagar!
+
+                    b.HasOne("BookSelling.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                //ate aqui
+
                     b.HasOne("BookSelling.Models.Utilizadores", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
+// esta parte vem do pull request do add favorite se causar problemas apagar!
+            modelBuilder.Entity("BookSelling.Models.Category", b =>
+                {
+                    b.HasOne("BookSelling.Models.Advertisement", null)
+                        .WithMany("AddCategory")
+                        .HasForeignKey("AdvertisementAdID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BookSelling.Models.Category", null)
+                        .WithMany("CategoriesList")
+                        .HasForeignKey("CategoryIdCategory")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("BookSelling.Models.Favorite", b =>
+                {
+                    b.HasOne("BookSelling.Models.Advertisement", "Advertisement")
+                        .WithMany()
+                        .HasForeignKey("AdvertisementID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BookSelling.Models.Utilizadores", "Utilizadores")
+                        .WithMany("ListaFavorite")
+                        .HasForeignKey("UtilizadoresID")
+                        .OnDelete(DeleteBehavior.Restrict)
+//ate aqui
             modelBuilder.Entity("BookSelling.Models.AdvertsCategory", b =>
                 {
                     b.HasOne("BookSelling.Models.Advertisement", "Advertisement")
@@ -448,11 +506,16 @@ namespace BookSelling.Data.Migrations
                         .WithMany("CategoriesList")
                         .HasForeignKey("CategoryFK")
                         .OnDelete(DeleteBehavior.Cascade)
+
                         .IsRequired();
 
                     b.Navigation("Advertisement");
 
+// esta parte vem do pull request do add favorite se causar problemas apagar!
+                    b.Navigation("Utilizadores");
+//ate aqui
                     b.Navigation("Category");
+
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -460,7 +523,7 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -469,7 +532,7 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -478,7 +541,7 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -487,13 +550,13 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -502,7 +565,7 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -515,6 +578,13 @@ namespace BookSelling.Data.Migrations
                 {
                     b.Navigation("CategoriesList");
                 });
+// esta parte vem do pull request do add favorite se causar problemas apagar!
+
+            modelBuilder.Entity("BookSelling.Models.Utilizadores", b =>
+                {
+                    b.Navigation("ListaFavorite");
+                });
+//ate aqui
 #pragma warning restore 612, 618
         }
     }

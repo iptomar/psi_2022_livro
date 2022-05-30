@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookSelling.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220512153700_AddFavtabl")]
-    partial class AddFavtabl
+    [Migration("20220526154215_AddFavorite")]
+    partial class AddFavorite
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.4")
+                .HasAnnotation("ProductVersion", "6.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -186,19 +186,19 @@ namespace BookSelling.Data.Migrations
                     b.Property<int>("AdvertisementID")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserID")
+                    b.Property<int>("UtilizadoresID")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AdvertisementID");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UtilizadoresID");
 
-                    b.ToTable("Favorite");
+                    b.ToTable("Favorites");
                 });
 
-            modelBuilder.Entity("BookSelling.Models.User", b =>
+            modelBuilder.Entity("BookSelling.Models.Utilizadores", b =>
                 {
                     b.Property<int>("UserID")
                         .ValueGeneratedOnAdd()
@@ -218,6 +218,9 @@ namespace BookSelling.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Reputation")
                         .HasColumnType("decimal(18,2)");
 
@@ -227,12 +230,9 @@ namespace BookSelling.Data.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserNameID")
-                        .HasColumnType("int");
-
                     b.HasKey("UserID");
 
-                    b.ToTable("User");
+                    b.ToTable("Utilizadores");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -442,13 +442,13 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("BookSelling.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BookSelling.Models.User", "User")
+                    b.HasOne("BookSelling.Models.Utilizadores", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -460,11 +460,13 @@ namespace BookSelling.Data.Migrations
                 {
                     b.HasOne("BookSelling.Models.Advertisement", null)
                         .WithMany("AddCategory")
-                        .HasForeignKey("AdvertisementAdID");
+                        .HasForeignKey("AdvertisementAdID")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("BookSelling.Models.Category", null)
                         .WithMany("CategoriesList")
-                        .HasForeignKey("CategoryIdCategory");
+                        .HasForeignKey("CategoryIdCategory")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("BookSelling.Models.Favorite", b =>
@@ -472,18 +474,18 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("BookSelling.Models.Advertisement", "Advertisement")
                         .WithMany()
                         .HasForeignKey("AdvertisementID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BookSelling.Models.User", "User")
+                    b.HasOne("BookSelling.Models.Utilizadores", "Utilizadores")
                         .WithMany("ListaFavorite")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("UtilizadoresID")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Advertisement");
 
-                    b.Navigation("User");
+                    b.Navigation("Utilizadores");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -491,7 +493,7 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -500,7 +502,7 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -509,7 +511,7 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -518,13 +520,13 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -533,7 +535,7 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -547,7 +549,7 @@ namespace BookSelling.Data.Migrations
                     b.Navigation("CategoriesList");
                 });
 
-            modelBuilder.Entity("BookSelling.Models.User", b =>
+            modelBuilder.Entity("BookSelling.Models.Utilizadores", b =>
                 {
                     b.Navigation("ListaFavorite");
                 });
