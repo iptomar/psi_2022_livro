@@ -492,7 +492,8 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("BookSelling.Models.Utilizadores", "Utilizadores")
                         .WithMany("ListaFavorite")
                         .HasForeignKey("UtilizadoresID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
 //ate aqui
             modelBuilder.Entity("BookSelling.Models.AdvertsCategory", b =>
                 {
