@@ -4,7 +4,7 @@ namespace BookSelling.Models
 {
     public class Utilizadores
     {
-        public Utilizadores()
+        public User()
         {
             // inicializar a lista de Categorias do Livro
             ListaFavorite = new HashSet<Favorite>();
@@ -19,8 +19,6 @@ namespace BookSelling.Models
         /// Username for the User
         /// </summary>
         public string UserName { get; set; }
-
-        public ICollection<Favorite> ListaFavorite { get; set; }
 
         /// <summary>
         /// Ligação entre os Utilizadores e a tabela de Autenticação
