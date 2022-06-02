@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookSelling.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220602144748_Sprint2_Lulu_Fred")]
-    partial class Sprint2_Lulu_Fred
+    [Migration("20220602145245_Sprint2_lulu_Fred_merge")]
+    partial class Sprint2_lulu_Fred_merge
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -450,7 +450,7 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("BookSelling.Models.Utilizadores", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -461,13 +461,13 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("BookSelling.Models.Advertisement", "Advertisement")
                         .WithMany("CategoriesList")
                         .HasForeignKey("AdvertisementFK")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("BookSelling.Models.Category", "Category")
                         .WithMany("CategoriesList")
                         .HasForeignKey("CategoryFK")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Advertisement");
@@ -480,13 +480,13 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("BookSelling.Models.Advertisement", "Advertisement")
                         .WithMany()
                         .HasForeignKey("AdvertisementID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("BookSelling.Models.Utilizadores", "Utilizadores")
                         .WithMany("ListaFavorite")
                         .HasForeignKey("UtilizadoresID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Advertisement");
@@ -499,7 +499,7 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -508,7 +508,7 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -517,7 +517,7 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -526,13 +526,13 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -541,7 +541,7 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 

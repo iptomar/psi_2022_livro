@@ -5,10 +5,34 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BookSelling.Data.Migrations
 {
-    public partial class Sprint2_Lulu_Fred : Migration
+    public partial class Sprint2_lulu_Fred_merge : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                table: "AspNetRoleClaims");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                table: "AspNetUserClaims");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                table: "AspNetUserLogins");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                table: "AspNetUserRoles");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                table: "AspNetUserRoles");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                table: "AspNetUserTokens");
+
             migrationBuilder.CreateTable(
                 name: "Category",
                 columns: table => new
@@ -66,7 +90,7 @@ namespace BookSelling.Data.Migrations
                         column: x => x.UserID,
                         principalTable: "Utilizadores",
                         principalColumn: "UserID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,13 +110,13 @@ namespace BookSelling.Data.Migrations
                         column: x => x.AdvertisementFK,
                         principalTable: "Advertisement",
                         principalColumn: "AdID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AdvertsCategory_Category_CategoryFK",
                         column: x => x.CategoryFK,
                         principalTable: "Category",
                         principalColumn: "IdCategory",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -112,13 +136,13 @@ namespace BookSelling.Data.Migrations
                         column: x => x.AdvertisementID,
                         principalTable: "Advertisement",
                         principalColumn: "AdID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Favorite_Utilizadores_UtilizadoresID",
                         column: x => x.UtilizadoresID,
                         principalTable: "Utilizadores",
                         principalColumn: "UserID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -166,10 +190,82 @@ namespace BookSelling.Data.Migrations
                 name: "IX_Favorite_UtilizadoresID",
                 table: "Favorite",
                 column: "UtilizadoresID");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId",
+                principalTable: "AspNetRoles",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                table: "AspNetUserRoles",
+                column: "RoleId",
+                principalTable: "AspNetRoles",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                table: "AspNetUserRoles",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                table: "AspNetUserTokens",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                table: "AspNetRoleClaims");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                table: "AspNetUserClaims");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                table: "AspNetUserLogins");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                table: "AspNetUserRoles");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                table: "AspNetUserRoles");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                table: "AspNetUserTokens");
+
             migrationBuilder.DropTable(
                 name: "AdvertsCategory");
 
@@ -184,6 +280,54 @@ namespace BookSelling.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Utilizadores");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId",
+                principalTable: "AspNetRoles",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                table: "AspNetUserRoles",
+                column: "RoleId",
+                principalTable: "AspNetRoles",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                table: "AspNetUserRoles",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                table: "AspNetUserTokens",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
     }
 }
