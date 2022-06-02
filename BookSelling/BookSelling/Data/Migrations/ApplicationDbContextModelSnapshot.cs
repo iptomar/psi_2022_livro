@@ -17,229 +17,10 @@ namespace BookSelling.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("BookSelling.Models.Advertisement", b =>
-                {
-                    b.Property<int>("AdID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdID"), 1L, 1);
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ISBM")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Photo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TypeofAdd")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Visibility")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("sold")
-                        .HasColumnType("bit");
-
-                    b.HasKey("AdID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("Advertisement");
-                });
-
-            modelBuilder.Entity("BookSelling.Models.AdvertsCategory", b =>
-                {
-                    b.Property<int>("IdAdvertsCategory")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAdvertsCategory"), 1L, 1);
-
-                    b.Property<int>("AdvertisementFK")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryFK")
-                        .HasColumnType("int");
-
-                    b.HasKey("IdAdvertsCategory");
-
-                    b.HasIndex("AdvertisementFK");
-
-                    b.HasIndex("CategoryFK");
-
-                    b.ToTable("AdvertsCategory");
-                });
-
-            modelBuilder.Entity("BookSelling.Models.Category", b =>
-                {
-                    b.Property<int>("IdCategory")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCategory"), 1L, 1);
-
-                    b.Property<string>("NameCategory")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdCategory");
-
-                    b.ToTable("Category");
-
-                    b.HasData(
-                        new
-                        {
-                            IdCategory = 1,
-                            NameCategory = "Action"
-                        },
-                        new
-                        {
-                            IdCategory = 2,
-                            NameCategory = "Adventure"
-                        },
-                        new
-                        {
-                            IdCategory = 3,
-                            NameCategory = "Comedy"
-                        },
-                        new
-                        {
-                            IdCategory = 4,
-                            NameCategory = "Drama"
-                        },
-                        new
-                        {
-                            IdCategory = 5,
-                            NameCategory = "Fantasy"
-                        },
-                        new
-                        {
-                            IdCategory = 6,
-                            NameCategory = "Science Fiction"
-                        },
-                        new
-                        {
-                            IdCategory = 7,
-                            NameCategory = "Romance"
-                        },
-                        new
-                        {
-                            IdCategory = 8,
-                            NameCategory = "Horror"
-                        },
-                        new
-                        {
-                            IdCategory = 9,
-                            NameCategory = "Manga"
-                        },
-                        new
-                        {
-                            IdCategory = 10,
-                            NameCategory = "Thriller"
-                        },
-                        new
-                        {
-                            IdCategory = 11,
-                            NameCategory = "Kids"
-                        },
-                        new
-                        {
-                            IdCategory = 12,
-                            NameCategory = "Mistery"
-                        },
-                        new
-                        {
-                            IdCategory = 13,
-                            NameCategory = "Suspance"
-                        },
-                        new
-                        {
-                            IdCategory = 14,
-                            NameCategory = "Comics Books"
-                        });
-                });
-
-            modelBuilder.Entity("BookSelling.Models.Favorite", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("AdvertisementID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UtilizadoresID")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdvertisementID");
-
-                    b.HasIndex("UtilizadoresID");
-
-                    b.ToTable("Favorites");
-                });
-
-            modelBuilder.Entity("BookSelling.Models.Utilizadores", b =>
-                {
-                    b.Property<int>("UserID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"), 1L, 1);
-
-                    b.Property<string>("Area")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("BooksSold")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("ID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Reputation")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Telephone")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserID");
-
-                    b.ToTable("Utilizadores");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -443,61 +224,12 @@ namespace BookSelling.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BookSelling.Models.Advertisement", b =>
-                {
-                    b.HasOne("BookSelling.Models.Utilizadores", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BookSelling.Models.AdvertsCategory", b =>
-                {
-                    b.HasOne("BookSelling.Models.Advertisement", "Advertisement")
-                        .WithMany("CategoriesList")
-                        .HasForeignKey("AdvertisementFK")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("BookSelling.Models.Category", "Category")
-                        .WithMany("CategoriesList")
-                        .HasForeignKey("CategoryFK")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Advertisement");
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("BookSelling.Models.Favorite", b =>
-                {
-                    b.HasOne("BookSelling.Models.Advertisement", "Advertisement")
-                        .WithMany()
-                        .HasForeignKey("AdvertisementID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("BookSelling.Models.Utilizadores", "Utilizadores")
-                        .WithMany("ListaFavorite")
-                        .HasForeignKey("UtilizadoresID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Advertisement");
-
-                    b.Navigation("Utilizadores");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -506,7 +238,7 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -515,7 +247,7 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -524,13 +256,13 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -539,23 +271,8 @@ namespace BookSelling.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BookSelling.Models.Advertisement", b =>
-                {
-                    b.Navigation("CategoriesList");
-                });
-
-            modelBuilder.Entity("BookSelling.Models.Category", b =>
-                {
-                    b.Navigation("CategoriesList");
-                });
-
-            modelBuilder.Entity("BookSelling.Models.Utilizadores", b =>
-                {
-                    b.Navigation("ListaFavorite");
                 });
 #pragma warning restore 612, 618
         }
