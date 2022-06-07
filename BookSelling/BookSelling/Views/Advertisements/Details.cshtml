@@ -17,105 +17,31 @@
         <b> Titulo:</b>
         @Html.DisplayFor(model => model.Title) <br />
 
-        <b> Data de Lançamento: </b>
+        <b> Preço: </b>
         @Html.DisplayFor(model => model.Price)<br />
 
-        <b> Realizador:</b>
+        <b> Tipo de anuncio:</b>
         @Html.DisplayFor(model => model.TypeofAdd)<br />
 
-        <b> Elenco:</b>
+        <b> ISBM:</b>
         @Html.DisplayFor(model => model.ISBM)<br />
 
-        <b> Duração:</b>
+        <b> Data de criação:</b>
         @Html.DisplayFor(model => model.DateTime)<br />
 
-        <b>Categories: </b>
+        <b>Categorias: </b>
         @foreach (var item in Model.CategoriesList) {
-            <a asp-controller="Categorias" asp-action="Details" asp-route-id="@item.IdAdvertsCategory" style="margin-right:5px;">@item.Category</a>
+            <a asp-route-id="@item.IdAdvertsCategory" style="margin-right:5px;">@item.Advertisement</a>
         }<br />
 
-        <b> Sinopse:</b>
+        <b> Descrição:</b>
         @Html.DisplayFor(model => model.Description)<br /> <br /><br /> <br />
 
     </div>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TypeofAdd)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TypeofAdd)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ISBM)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ISBM)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.sold)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.sold)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Photo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Photo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Visibility)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Visibility)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.User)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.User.Area)
-        </dd>
-    </dl>
+    
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.AdID">Edit</a> |
