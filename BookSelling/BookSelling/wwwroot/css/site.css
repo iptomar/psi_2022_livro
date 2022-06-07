@@ -1,38 +1,49 @@
+/*Trabalho Realizado por João Godinho nº21883*/
+
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
+/*Imagem para dropdown*/
 .dropdown {
     position: relative;
     display: inline-block;
 }
 
+/*Lista do Dropdown (Posição do texto está no loginpartial) */
 .dropdown-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 50px;
     z-index: auto;
-    transform: translateX(-20%);
+    transform: translateX(-45%);
 }
 
+/*Aparece a lista com hover no imagem*/
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+/*Aparece selecionado a opção com o hover*/
+.dropdown-content form:hover {
+    display: block;
+    background-color: lightgray;
 }
 
 /*---------*/
@@ -45,9 +56,9 @@ body {
     position: relative;
 }
 
-.selectBox select {
-    width: 100%;
-}
+    .selectBox select {
+        width: 100%;
+    }
 
 .overSelect {
     position: absolute;
@@ -57,6 +68,7 @@ body {
     bottom: 0;
 }
 
+/*Background das opções das categorias*/
 #mySelectOptions {
     display: none;
     border: 0.5px #7c7c7c solid;
@@ -65,20 +77,22 @@ body {
     overflow-y: scroll;
 }
 
-#mySelectOptions label {
-    display: block;
-    font-weight: normal;
-    display: block;
-    white-space: nowrap;
-    min-height: 1.2em;
-    background-color: #ffffff00;
-    padding: 0 2.25rem 0 .75rem;
-    /* padding: .375rem 2.25rem .375rem .75rem; */
-}
+    /**/
+    #mySelectOptions label {
+        display: block;
+        font-weight: normal;
+        display: block;
+        white-space: nowrap;
+        min-height: 1.2em;
+        background-color: #ffffff00;
+        padding: 0 2.25rem 0 .75rem;
+        /* padding: .375rem 2.25rem .375rem .75rem; */
+    }
 
-#mySelectOptions label:hover {
-    background-color: #1e90ff;
-}
+        /*Hover das categorias dos livros*/
+        #mySelectOptions label:hover {
+            background-color: #1e90ff;
+        }
 
 /***********************/
 
@@ -93,16 +107,21 @@ body {
 }
 
 /**********************/
+
+
 div.Advertisement {
     position: relative;
     width: 200px;
     height: 250px;
     float: left;
-    margin-left: 50px;
+    margin-right: 40px;
     margin-bottom: 50px;
+    margin-top: 40px;
 }
 
+/**/
 img.PhotoAdvertisement {
+    border-radius: 20px;
     width: 200px;
     height: 250px;
     border: 4px solid black;
@@ -119,7 +138,7 @@ div.overlay {
     width: 100%;
     opacity: 0;
     transition: .5s ease;
-    background-color: navy;
+    background-color: midnightblue;
     cursor: pointer;
 }
 
@@ -136,7 +155,7 @@ div.text {
     font-weight: bold;
 }
 
+/**/
 div.Advertisement:hover .overlay {
     opacity: 0.70;
 }
-
