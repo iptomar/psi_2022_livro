@@ -113,12 +113,14 @@ div.Advertisement {
     width: 200px;
     height: 250px;
     float: left;
-    margin-left: 50px;
+    margin-right: 40px;
     margin-bottom: 50px;
+    margin-top: 40px;
 }
 
 /**/
 img.PhotoAdvertisement {
+    border-radius: 20px;
     width: 200px;
     height: 250px;
     border: 4px solid black;
@@ -135,12 +137,12 @@ div.overlay {
     width: 100%;
     opacity: 0;
     transition: .5s ease;
-    background-color: navy;
+    background-color: midnightblue;
     cursor: pointer;
 }
 
 div.text {
-    color: red;
+    color: white;
     font-size: 20px;
     position: absolute;
     top: 50%;
