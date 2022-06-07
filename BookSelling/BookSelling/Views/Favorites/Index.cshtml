@@ -4,6 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
+<head>
+    <link rel="stylesheet" href="~/css/ImagemFavorites.css" />
+</head>
+
 <h1>Lista de Favoritos</h1>
 @if (User.Identity.IsAuthenticated)
 {
@@ -18,7 +22,7 @@
         <img class="ImagemFavs" src="~/Photos/@Html.DisplayFor(modelItem => item.Advertisement.Photo)" />
         <div class="overlay">
             <div class="text">
-                @Html.DisplayFor(modelItem => item.Advertisement.UserID)
+                @Html.DisplayFor(modelItem => item.Advertisement.Title)
             </div>
         </div>
     </a>
