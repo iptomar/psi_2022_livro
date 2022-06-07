@@ -1,0 +1,30 @@
+﻿@model IEnumerable<BookSelling.Models.Favorite>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/ImagemFavorites.css" />
+</head>
+
+<h1>Lista de Favoritos</h1>
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+@foreach (var item in Model) {
+       <div class="Favorite">
+        <a asp-action="Details" asp-route-id="@item.AdvertisementID">
+        <img class="ImagemFavs" src="~/Photos/@Html.DisplayFor(modelItem => item.Advertisement.Photo)" />
+        <div class="overlay">
+            <div class="text">
+                @Html.DisplayFor(modelItem => item.Advertisement.Title)
+            </div>
+        </div>
+    </a>
+</div>
+}
