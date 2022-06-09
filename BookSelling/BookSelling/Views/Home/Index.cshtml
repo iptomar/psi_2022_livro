@@ -94,20 +94,39 @@ sadwqdasasds
      
       <!--------Search-Bar------------------>
         <form id="content">
-            <input type="text" placeholder="Search Your Favorite Book" name="input" class="input" id="search-input">
+            <input type="text" id="search-input" onkeyup="myFunction()" placeholder="Search Your Favorite Book" title="Search books by the Name or by the Code">
             <button type="reset" class="search" id="search-btn"></button>
         </form>
 
         <script type="text/javascript">
+
         const input = document.getElementById("search-input");
         const searchBtn = document.getElementById("search-btn");
 
         const expand = () => {
-            searchBttn.classList.toggle("close");
+            searchBtn.classList.toggle("close");
             input.classList.toggle("square");
         };
         searchBtn.addEventListener("click", expand);
-        
+
+            function myFunction() {
+                var input, filter, ul, li, a, i, h, b, txtValue;
+                input = document.getElementById("search-input");
+                filter = input.value.toUpperCase();
+                ul = document.getElementByTagName("li");
+                for (i = 0; i < li.length; i++) {
+                    a = li[i].getElementByTagName("a")[0];
+                    txtValue = a.textContent || a.innerText;
+
+                    if (txtValue.toUpperCase().indexOf(fliter) > -1) {
+                        li[i].style.display = "";
+                    }
+                    else {
+                        li[i].style.display = "none";
+                    }
+                }
+            }
+
         </script>
 
 
