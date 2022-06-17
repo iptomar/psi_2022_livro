@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BookSelling.Data.Migrations
+namespace BookSelling.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -17,7 +17,7 @@ namespace BookSelling.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "6.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -184,6 +184,42 @@ namespace BookSelling.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("BookSelling.Models.Reviews", b =>
+                {
+                    b.Property<int>("IdReview")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdReview"), 1L, 1);
+
+                    b.Property<int>("AdsFK")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Comentario")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Pontuacao")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UtilizadoresFK")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Visibilidade")
+                        .HasColumnType("bit");
+
+                    b.HasKey("IdReview");
+
+                    b.HasIndex("AdsFK");
+
+                    b.HasIndex("UtilizadoresFK");
+
+                    b.ToTable("Reviews");
+                });
+
             modelBuilder.Entity("BookSelling.Models.Utilizadores", b =>
                 {
                     b.Property<int>("UserID")
@@ -198,6 +234,9 @@ namespace BookSelling.Data.Migrations
 
                     b.Property<int>("BooksSold")
                         .HasColumnType("int");
+
+                    b.Property<bool>("ControlarReview")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -455,6 +494,23 @@ namespace BookSelling.Data.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("BookSelling.Models.Reviews", b =>
+                {
+                    b.HasOne("BookSelling.Models.Advertisement", "Adverts")
+                        .WithMany("ReviewsList")
+                        .HasForeignKey("AdsFK")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookSelling.Models.Utilizadores", "Utilizador")
+                        .WithMany("ReviewsList")
+                        .HasForeignKey("UtilizadoresFK");
+
+                    b.Navigation("Adverts");
+
+                    b.Navigation("Utilizador");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -509,11 +565,18 @@ namespace BookSelling.Data.Migrations
             modelBuilder.Entity("BookSelling.Models.Advertisement", b =>
                 {
                     b.Navigation("CategoriesList");
+
+                    b.Navigation("ReviewsList");
                 });
 
             modelBuilder.Entity("BookSelling.Models.Category", b =>
                 {
                     b.Navigation("CategoriesList");
+                });
+
+            modelBuilder.Entity("BookSelling.Models.Utilizadores", b =>
+                {
+                    b.Navigation("ReviewsList");
                 });
 #pragma warning restore 612, 618
         }
