@@ -9,22 +9,29 @@
 </head>
 
 <h1>Lista de Favoritos</h1>
-@if (User.Identity.IsAuthenticated)
-{
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-}
-
-@foreach (var item in Model) {
-       <div class="Favorite">
-        <a asp-action="Details" asp-route-id="@item.AdvertisementID">
-        <img class="ImagemFavs" src="~/Photos/@Html.DisplayFor(modelItem => item.Advertisement.Photo)" />
-        <div class="overlay">
-            <div class="text">
-                @Html.DisplayFor(modelItem => item.Advertisement.Title)
+@{
+    <br />
+    int i = 0;
+    @foreach (var item in Model) {
+        if (item.Utilizadores.Email == User.Identity.Name)
+        {
+            i++;
+            <div class="Favorite">
+                <a asp-action="Details" asp-route-id="@item.AdvertisementID">
+                <img class="ImagemFavs" src="~/Photos/@Html.DisplayFor(modelItem => item.Advertisement.Photo)" />
+                <div class="overlay">
+                    <div class="text">
+                        @Html.DisplayFor(modelItem => item.Advertisement.Title)
+                    </div>
+                </div>
+                </a>
             </div>
-        </div>
-    </a>
-</div>
+        }
+
+    }
+
+    if (i == 0)
+    {
+        <h3>Ainda não tem favoritos.</h3>
+    }
 }

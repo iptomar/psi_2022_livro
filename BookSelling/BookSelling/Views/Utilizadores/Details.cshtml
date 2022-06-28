@@ -1,0 +1,222 @@
+﻿@model BookSelling.Models.Utilizadores
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@*<h1>Details</h1>*@
+
+@*<div>
+    <h4>Utilizadores</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Reputation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Reputation)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Area)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Area)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BooksSold)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BooksSold)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Telephone)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Telephone)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.UserID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+<section>
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <img style=" width: 120px; height: 120px; object-fit:fill; border-radius: 60px" src="~/Logos/logo_user2b.png"/>
+            <h5 class="my-3">@Model.UserName</h5>
+            <p class="text-muted mb-4">@Model.Email</p>
+            <button class="btn btn-primary" style="height:35px; margin-right:10px" onclick="location.href = '@Url.Action("Edit","Utilizadores", new { id = Model.UserID})'">Edit</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Full Name</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">@Model.UserName</p>
+              </div>
+            </div>
+            <hr style="background-color:grey">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">@Model.Email</p>
+              </div>
+            </div>
+            <hr style="background-color:grey">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Phone</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">@Model.Telephone</p>
+              </div>
+            </div>
+            <hr style="background-color:grey">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Area</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">@Model.Area</p>
+              </div>
+            </div>
+            <hr style="background-color:grey">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Reputation</p>
+              </div>
+                @{
+                    int reputation = (int) Model.Reputation;
+                    if(reputation != 0){
+                        @if (@Model.Reputation < 3)
+                        {
+                            <div style="height: 24px; width: 35px; text-align: center; background-color: red">
+                                <a>@reputation</a>
+                            </div>
+                        }
+                        else if (@Model.Reputation == 3)
+                        {
+                            <div style="height: 24px; width: 35px; text-align: center; background-color: yellow">
+                                <a>@reputation</a>
+                            </div>
+                        }
+                        else if (@Model.Reputation > 3)
+                        {
+                            <div style="height: 24px; width: 35px; text-align: center; background-color: greenyellow">
+                                <a>@reputation</a>
+                            </div>
+                        }
+                    }
+                    else{
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">This User haven't been reviewed yet.</p>
+                          </div>
+                    }
+                    
+                }
+            </div>
+          </div>
+        </div>
+
+        @if (User.Identity.IsAuthenticated && User.Identity.Name != Model.Email)
+        {
+            @if (1 == 1)
+            {
+                int flag = 0;
+                @foreach (var item in Model.UtilizadoresRight)
+                {
+                    if (User.Identity.Name == item.Utilizador.Email)
+                    {
+                        if (item.ValueReview != 0)
+                        {
+                            flag = 1;
+                        }
+                    }
+                }
+                if (flag == 0)
+                {
+                    <form asp-action="CreateRating">
+                        <div style="border-top:20px solid transparent; border-left:15px solid transparent">
+                            <input type="hidden" name="userId" value="@Model.UserID" />
+                            <div style="border-top: 10px solid transparent; border-bottom: 25px solid transparent">
+                                <a style="font-weight: bold">Review: </a><input required type="number" name="nota" min="1" max="5" text-align="center" maxlength="1" placeholder="1 a 5" />
+                                <input type="submit" value="Adicionar nota" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </form>
+                }
+            }
+        }
+
+        @if (User.Identity.IsAuthenticated && User.Identity.Name != Model.Email)
+        {
+            @foreach (var item in Model.UtilizadoresRight)
+            {
+                if (@item.Utilizador.Email == User.Identity.Name)
+                {
+                    <div style="border-left:30px solid transparent;">
+                        <dl class="row">
+                            <dt>
+                                <a>Your Review:</a>
+                            </dt>
+                            <dd class="col-sm-10" style="object-fit: fill;">
+                                @if (@item.ValueReview < 3)
+                                {
+                                    <div style="height: 24px; width: 35px; text-align: center; background-color: red">
+                                        <a>@item.ValueReview</a>
+                                    </div>
+                                }
+                                else if (@item.ValueReview == 3)
+                                {
+                                    <div style="height: 24px; width: 35px; text-align: center; background-color: yellow">
+                                        <a>@item.ValueReview</a>
+                                    </div>
+                                }
+                                else if (@item.ValueReview > 3)
+                                {
+                                    <div style="height: 24px; width: 35px; text-align: center; background-color: greenyellow">
+                                        <a>@item.ValueReview</a>
+                                    </div>
+                                }
+                            </dd>
+                            <div>
+                                <button class="btn btn-primary" style="height:35px; margin-right:10px" onclick="location.href = '@Url.Action("Edit","UserReviews", new { id = item.IdReview})'">Edit</button>
+                                <button class="btn btn-danger" style="height:35px; margin-right:10px" onclick="location.href = '@Url.Action("Delete","UserReviews", new { id = item.IdReview})'">Delete</button>
+                            </div>
+                        </dl>
+                    </div>
+                }
+            }
+        }
+  </div>
+</section>

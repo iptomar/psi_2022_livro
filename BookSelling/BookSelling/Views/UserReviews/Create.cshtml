@@ -1,0 +1,46 @@
+﻿@model BookSelling.Models.UserReview
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>UserReview</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ValueReview" class="control-label"></label>
+                <input asp-for="ValueReview" class="form-control" />
+                <span asp-validation-for="ValueReview" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateReview" class="control-label"></label>
+                <input asp-for="DateReview" class="form-control" />
+                <span asp-validation-for="DateReview" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UtilizadorFK" class="control-label"></label>
+                <select asp-for="UtilizadorFK" class ="form-control" asp-items="ViewBag.UtilizadorFK"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Utilizador2FK" class="control-label"></label>
+                <select asp-for="Utilizador2FK" class ="form-control" asp-items="ViewBag.Utilizador2FK"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
