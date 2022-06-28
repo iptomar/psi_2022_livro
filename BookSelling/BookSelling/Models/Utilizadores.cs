@@ -12,6 +12,14 @@ namespace BookSelling.Models
             UtilizadoresRight = new HashSet<UserReview>();
         }
         /// <summary>
+        /// Construtor dos utilizadores
+        /// </summary>
+        public Utilizadores()
+        {
+            ReviewsList = new HashSet<Reviews>();
+        }
+
+        /// <summary>
         /// User ID
         /// </summary>
         [Key]
@@ -59,6 +67,17 @@ namespace BookSelling.Models
         /// </summary>
         [Required]
         public int Telephone { get; set; }
+
+        /// <summary>
+        /// verifica se o utilizador já deu a sua "Review" ao filme
+        /// </summary>
+        public Boolean ControlarReview { get; set; }
+
+        /// <summary>
+        /// Lista das reviews dos utilizadores
+        /// </summary>
+        public ICollection<Reviews> ReviewsList { get; set; }
+
 
         //public ICollection<UserReview> UsersReview { get; set; }
 

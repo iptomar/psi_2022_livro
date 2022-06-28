@@ -17,25 +17,72 @@
         <b> Titulo:</b>
         @Html.DisplayFor(model => model.Title) <br />
 
-        <b> Data de Lançamento: </b>
+        <b> Preço: </b>
         @Html.DisplayFor(model => model.Price)<br />
 
-        <b> Realizador:</b>
+        <b> Tipo de anuncio:</b>
         @Html.DisplayFor(model => model.TypeofAdd)<br />
 
-        <b> Elenco:</b>
+        <b> ISBM:</b>
         @Html.DisplayFor(model => model.ISBM)<br />
 
-        <b> Duração:</b>
+        <b> Data de criação:</b>
         @Html.DisplayFor(model => model.DateTime)<br />
 
-        <b>Categories: </b>
+        <b>Categorias: </b>
         @foreach (var item in Model.CategoriesList) {
-            <a asp-controller="Categorias" asp-action="Details" asp-route-id="@item.IdAdvertsCategory" style="margin-right:5px;">@item.Category</a>
+            <a asp-route-id="@item.IdAdvertsCategory" style="margin-right:5px;">@item.Advertisement</a>
         }<br />
 
-        <b> Sinopse:</b>
+        <b> Descrição:</b>
         @Html.DisplayFor(model => model.Description)<br /> <br /><br /> <br />
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <div>
+    <form asp-action="CreateComentario" method="post">
+                <input type="hidden" name="IdAds" value="@Model.AdID" />
+                <span>Rating: </span><input required type="number" name="rating" min="1" max="10" maxlength="2" placeholder="1" /><br /><br />
+                <span>Comentario:</span><br />
+                <textarea required name="comentario" style="resize:none; width:900px; height:100px;"></textarea><br />
+                <div style="float: right; width:36%">
+                    <input type="submit" value="Adicionar Comentrario" class="btn btn-primary" />
+                </div><br /><br />
+            </form>
+    </div>
+
+    <div id="comentarios" style="width:80%">
+        @foreach (var item in Model.ReviewsList) {
+            @if (item.Visibilidade == true) {
+                <div style="border: 3px solid black; background-color: #ece3f7;
+        padding-top: 2px; padding-right: 3px; padding-bottom: 5px; padding-left: 5px;">
+
+                    <span style="font-weight:bold; font-size:medium;">  Utilizador: </span> @item.Utilizador.Email
+                    <span style="font-weight:bold; font-size:medium; float:right; margin-right:5px">  Pontuação: @item.Pontuacao</span><br />
+
+                    <span style="font-weight:bold; font-size:medium">  Comentario: </span>@Html.Raw(item.Comentario) <br />
+                    <span style="font-weight:bold; font-size:medium">  Data: </span>@item.Data <br />
+
+                </div><br />
+                
+                
+                    if (item.Utilizador.Email == User.Identity.Name) {
+                        <div>
+                            <button class="btn btn-primary" onclick="location.href = '@Url.Action("Edit", "Reviews", new { id = item.IdReview })'">Editar</button>
+                            <button class="btn btn-primary" onclick="location.href = '@Url.Action("Delete", "Reviews", new { id = item.IdReview })'">Eliminar</button>
+                        </div><br />
+                    }
+
+                }}<br /><br />
 
     </div>
 
@@ -50,72 +97,7 @@
 
 
 
-
-
-
-
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TypeofAdd)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TypeofAdd)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ISBM)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ISBM)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.sold)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.sold)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Photo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Photo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Visibility)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Visibility)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.User)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.User.Area)
-        </dd>
-    </dl>
+    
 </div>
 <div>
     @*<a asp-action="AddFavorite">Favorite</a>*@

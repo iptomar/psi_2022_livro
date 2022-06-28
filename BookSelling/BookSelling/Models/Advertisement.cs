@@ -9,6 +9,8 @@ namespace BookSelling.Models
         {
             // inicializar a lista de Categorias do Livro
             CategoriesList = new HashSet<AdvertsCategory>();
+            ReviewsList = new HashSet<Reviews>();
+
         }
 
         /// <summary>
@@ -89,5 +91,11 @@ namespace BookSelling.Models
         /// List of the categories of the book
         /// </summary>
         public ICollection<AdvertsCategory> CategoriesList { get; set; }
+
+        /// <summary>
+        /// Lista das reviews dos advertisements
+        /// </summary>
+        public ICollection<Reviews> ReviewsList { get; set; }
+
     }
 }
