@@ -10,14 +10,8 @@ namespace BookSelling.Models
             // inicializar a lista de Categorias do Livro
             UtilizadoresLeft = new HashSet<UserReview>();
             UtilizadoresRight = new HashSet<UserReview>();
-        }
-        /// <summary>
-        /// Construtor dos utilizadores
-        /// </summary>
-        public Utilizadores()
-        {
             ReviewsList = new HashSet<Reviews>();
-        }
+        }       
 
         /// <summary>
         /// User ID

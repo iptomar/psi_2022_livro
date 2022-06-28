@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BookSelling.Migrations
 {
-    public partial class reviwesmig2 : Migration
+    public partial class projetofinal : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -67,8 +67,8 @@ namespace BookSelling.Migrations
                 {
                     UserID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Reputation = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Area = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -99,7 +99,7 @@ namespace BookSelling.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -120,7 +120,7 @@ namespace BookSelling.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -140,7 +140,7 @@ namespace BookSelling.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -158,13 +158,13 @@ namespace BookSelling.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -184,7 +184,7 @@ namespace BookSelling.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -194,12 +194,12 @@ namespace BookSelling.Migrations
                     AdID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TypeofAdd = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ISBM = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     sold = table.Column<bool>(type: "bit", nullable: false),
-                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Visibility = table.Column<bool>(type: "bit", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserID = table.Column<int>(type: "int", nullable: false)
@@ -212,7 +212,35 @@ namespace BookSelling.Migrations
                         column: x => x.UserID,
                         principalTable: "Utilizadores",
                         principalColumn: "UserID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserReview",
+                columns: table => new
+                {
+                    IdReview = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ValueReview = table.Column<double>(type: "float", nullable: false),
+                    DateReview = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UtilizadorFK = table.Column<int>(type: "int", nullable: false),
+                    Utilizador2FK = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserReview", x => x.IdReview);
+                    table.ForeignKey(
+                        name: "FK_UserReview_Utilizadores_Utilizador2FK",
+                        column: x => x.Utilizador2FK,
+                        principalTable: "Utilizadores",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserReview_Utilizadores_UtilizadorFK",
+                        column: x => x.UtilizadorFK,
+                        principalTable: "Utilizadores",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -232,13 +260,39 @@ namespace BookSelling.Migrations
                         column: x => x.AdvertisementFK,
                         principalTable: "Advertisement",
                         principalColumn: "AdID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AdvertsCategory_Category_CategoryFK",
                         column: x => x.CategoryFK,
                         principalTable: "Category",
                         principalColumn: "IdCategory",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Favorites",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AdvertisementID = table.Column<int>(type: "int", nullable: false),
+                    UtilizadoresID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Favorites", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Favorites_Advertisement_AdvertisementID",
+                        column: x => x.AdvertisementID,
+                        principalTable: "Advertisement",
+                        principalColumn: "AdID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Favorites_Utilizadores_UtilizadoresID",
+                        column: x => x.UtilizadoresID,
+                        principalTable: "Utilizadores",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -262,12 +316,13 @@ namespace BookSelling.Migrations
                         column: x => x.AdsFK,
                         principalTable: "Advertisement",
                         principalColumn: "AdID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Reviews_Utilizadores_UtilizadoresFK",
                         column: x => x.UtilizadoresFK,
                         principalTable: "Utilizadores",
-                        principalColumn: "UserID");
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -346,6 +401,16 @@ namespace BookSelling.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Favorites_AdvertisementID",
+                table: "Favorites",
+                column: "AdvertisementID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Favorites_UtilizadoresID",
+                table: "Favorites",
+                column: "UtilizadoresID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reviews_AdsFK",
                 table: "Reviews",
                 column: "AdsFK");
@@ -354,6 +419,16 @@ namespace BookSelling.Migrations
                 name: "IX_Reviews_UtilizadoresFK",
                 table: "Reviews",
                 column: "UtilizadoresFK");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserReview_Utilizador2FK",
+                table: "UserReview",
+                column: "Utilizador2FK");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserReview_UtilizadorFK",
+                table: "UserReview",
+                column: "UtilizadorFK");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -377,7 +452,13 @@ namespace BookSelling.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Favorites");
+
+            migrationBuilder.DropTable(
                 name: "Reviews");
+
+            migrationBuilder.DropTable(
+                name: "UserReview");
 
             migrationBuilder.DropTable(
                 name: "Category");

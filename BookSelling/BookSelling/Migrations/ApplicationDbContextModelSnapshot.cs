@@ -181,6 +181,29 @@ namespace BookSelling.Migrations
                         });
                 });
 
+            modelBuilder.Entity("BookSelling.Models.Favorite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AdvertisementID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UtilizadoresID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdvertisementID");
+
+                    b.HasIndex("UtilizadoresID");
+
+                    b.ToTable("Favorites");
+                });
+
             modelBuilder.Entity("BookSelling.Models.Reviews", b =>
                 {
                     b.Property<int>("IdReview")
@@ -215,29 +238,6 @@ namespace BookSelling.Migrations
                     b.HasIndex("UtilizadoresFK");
 
                     b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("BookSelling.Models.Favorite", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("AdvertisementID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UtilizadoresID")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdvertisementID");
-
-                    b.HasIndex("UtilizadoresID");
-
-                    b.ToTable("Favorites");
                 });
 
             modelBuilder.Entity("BookSelling.Models.UserReview", b =>
@@ -541,23 +541,6 @@ namespace BookSelling.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("BookSelling.Models.Reviews", b =>
-                {
-                    b.HasOne("BookSelling.Models.Advertisement", "Adverts")
-                        .WithMany("ReviewsList")
-                        .HasForeignKey("AdsFK")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookSelling.Models.Utilizadores", "Utilizador")
-                        .WithMany("ReviewsList")
-                        .HasForeignKey("UtilizadoresFK");
-
-                    b.Navigation("Adverts");
-
-                    b.Navigation("Utilizador");
-                });
-
             modelBuilder.Entity("BookSelling.Models.Favorite", b =>
                 {
                     b.HasOne("BookSelling.Models.Advertisement", "Advertisement")
@@ -575,6 +558,24 @@ namespace BookSelling.Migrations
                     b.Navigation("Advertisement");
 
                     b.Navigation("Utilizadores");
+                });
+
+            modelBuilder.Entity("BookSelling.Models.Reviews", b =>
+                {
+                    b.HasOne("BookSelling.Models.Advertisement", "Adverts")
+                        .WithMany("ReviewsList")
+                        .HasForeignKey("AdsFK")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BookSelling.Models.Utilizadores", "Utilizador")
+                        .WithMany("ReviewsList")
+                        .HasForeignKey("UtilizadoresFK")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Adverts");
+
+                    b.Navigation("Utilizador");
                 });
 
             modelBuilder.Entity("BookSelling.Models.UserReview", b =>
@@ -661,12 +662,9 @@ namespace BookSelling.Migrations
 
             modelBuilder.Entity("BookSelling.Models.Utilizadores", b =>
                 {
-                    b.Navigation("ReviewsList");
-                });
-
-            modelBuilder.Entity("BookSelling.Models.Utilizadores", b =>
-                {
                     b.Navigation("ListaFavorite");
+
+                    b.Navigation("ReviewsList");
 
                     b.Navigation("UtilizadoresLeft");
 
