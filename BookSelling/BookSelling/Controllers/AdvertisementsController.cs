@@ -7,6 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using BookSelling.Data;
+using BookSelling.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace BookSelling.Controllers
 {
@@ -20,10 +27,17 @@ namespace BookSelling.Controllers
 
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public AdvertisementsController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+        /// <summary>
+        /// variavel que recolhe os dados da pessoa que se autenticou
+        /// </summary>
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public AdvertisementsController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _userManager = userManager;
+
         }
 
         // GET: Advertisements
@@ -42,6 +56,52 @@ namespace BookSelling.Controllers
 
         }
 
+        /// <summary>
+        /// Metodo para apresentar os comentarios feitos pelos utilizadores
+  
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> CreateComentario(int IdAds, string comentario, int rating)
+        {
+            //recolher dados do utilizador
+            var utilizador = _context.Utilizadores.Where(u => u.ID == _userManager.GetUserId(User)).FirstOrDefault();
+
+            // será que este user já fez um comentário sobre este filme?
+            var oldComentario = await _context.Reviews.Where(r => r.Utilizador == utilizador && r.AdsFK == IdAds).FirstOrDefaultAsync();
+
+            if (oldComentario == null)
+            {
+                //variavel que contem os dados da review, do utilizador e sobre qual filme foi feita review
+                var comment = new Reviews
+                {
+                    AdsFK = IdAds,
+                    Comentario = comentario.Replace("\r\n", "<br />"),
+                    Pontuacao = rating,
+                    Data = DateTime.Now,
+                    Visibilidade = true,
+                    Utilizador = utilizador
+                };
+                //adiciona a review à Base de Dados
+                _context.Reviews.Add(comment);
+                //o utilizador já fez a sua review
+                utilizador.ControlarReview = true;
+                //guardar a alteração na Base de Dados
+                _context.Utilizadores.Update(utilizador);
+                //Guarda as alterações na Base de Dados
+                await _context.SaveChangesAsync();
+                //redirecionar para a página dos details do filme
+                return RedirectToAction(nameof(Details), new { id = IdAds });
+            }
+            else
+            {
+                return RedirectToAction(nameof(Details), new { id = IdAds });
+            }
+
+
+        }
+
         // GET: Advertisements/Details/5
         public async Task<IActionResult> Details(int? id, int FavoriteValue)
         {
@@ -49,6 +109,8 @@ namespace BookSelling.Controllers
             {
                 return NotFound();
             }
+
+           
 
             ViewBag.FavoriteValue = 0;
 
@@ -74,6 +136,8 @@ namespace BookSelling.Controllers
 
             var advertisement = await _context.Advertisement
                 .Include(a => a.User)
+                .Include(f => f.ReviewsList)
+                .ThenInclude(r => r.Utilizador)
                 .FirstOrDefaultAsync(m => m.AdID == id);
             if (advertisement == null)
             {
