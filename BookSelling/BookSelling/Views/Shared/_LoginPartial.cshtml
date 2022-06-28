@@ -1,5 +1,8 @@
 ﻿@*Trabalho Realizado por João Godinho nº21883*@
+@using BookSelling.Data
 @using Microsoft.AspNetCore.Identity
+@using BookSelling.Models
+@inject ApplicationDbContext _context;
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
@@ -17,15 +20,18 @@
             </a>
           </span>
           <div class="dropdown-content">
-            <form  class="form-inline">
-                <button style="width: 100%; text-align: center" type="submit" class="nav-link btn btn-link text-dark">Profile</button>
-            </form>
-            <form  class="form-inline">
-                <button style="width: 100%; text-align: center" type="submit" class="nav-link btn btn-link text-dark">Favorite</button>
-            </form>
-            <form  class="form-inline">
-                <button style="width: 100%; text-align: center" type="submit" class="nav-link btn btn-link text-dark">Edit</button>
-            </form>
+                  @foreach (var item in _context.Utilizadores)
+                    {
+                        if (item.Email == User.Identity.Name)
+                        {
+                            <form class="nav-link text-dark" asp-area="" asp-controller="Utilizadores" asp-action="Details" asp-route-id="@item.UserID">
+                                        <button style="width: 100%; text-align: center" type="submit" class="nav-link btn btn-link text-dark">Profile</button>
+                            </form>
+                        }
+                    }
+                        <form class="nav-link text-dark" asp-area="" asp-controller="Favorites" asp-action="Index">
+                            <button style="width: 100%; text-align: center" type="submit" class="nav-link btn btn-link text-dark">Favorites</button>
+                        </form>
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <button style="width: 100%; text-align: center" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
             </form>
