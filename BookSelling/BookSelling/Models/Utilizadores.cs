@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookSelling.Models
 {
@@ -7,7 +8,8 @@ namespace BookSelling.Models
         public Utilizadores()
         {
             // inicializar a lista de Categorias do Livro
-            ListaFavorite = new HashSet<Favorite>();
+            UtilizadoresLeft = new HashSet<UserReview>();
+            UtilizadoresRight = new HashSet<UserReview>();
         }
         /// <summary>
         /// User ID
@@ -57,6 +59,12 @@ namespace BookSelling.Models
         /// </summary>
         [Required]
         public int Telephone { get; set; }
-       
+
+        //public ICollection<UserReview> UsersReview { get; set; }
+
+        [InverseProperty(nameof(UserReview.Utilizador))]
+        public ICollection<UserReview> UtilizadoresLeft { get; set; }
+        [InverseProperty(nameof(UserReview.Utilizador2))]
+        public ICollection<UserReview> UtilizadoresRight { get; set; }
     }
 }

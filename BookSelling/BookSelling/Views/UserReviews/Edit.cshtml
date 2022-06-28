@@ -1,0 +1,54 @@
+﻿@model BookSelling.Models.UserReview
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>UserReview</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdReview" />
+            <div class="form-group">
+                <label asp-for="ValueReview" class="control-label">Review:</label>
+                <input style="width:65px" asp-for="ValueReview" class="form-control" name="value" type="number" min="1" max="5" text-align="center" maxlength="1" placeholder="1 a 5" />
+                <span asp-validation-for="ValueReview" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <a style="font-weight: bold">Review: </a><input required asp-for="ValueReview" type="number" name="nota" min="1" max="5" text-align="center" maxlength="1" placeholder="1 a 5" />
+                <span hidden asp-validation-for="ValueReview" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label hidden asp-for="DateReview" class="control-label"></label>
+                <input hidden asp-for="DateReview" class="form-control" />
+                <span hidden asp-validation-for="DateReview" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label hidden asp-for="UtilizadorFK" class="control-label"></label>
+                <select hidden asp-for="UtilizadorFK" class="form-control" asp-items="ViewBag.UtilizadorFK"></select>
+                <span hidden asp-validation-for="UtilizadorFK" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label hidden asp-for="Utilizador2FK" class="control-label"></label>
+                <select hidden asp-for="Utilizador2FK" name="reviwed" class="form-control" asp-items="ViewBag.Utilizador2FK"></select>
+                <span hidden asp-validation-for="Utilizador2FK" class="text-danger"></span>
+            </div>
+            <div style="border-top: 15px solid transparent">
+                @*<button type="" class="btn btn-primary" style="height:35px; margin-right:10px" asp-area="" asp-controller="Utilizadores" asp-action="Details" asp-route-id="@Model.Utilizador2FK">Save</button>*@
+                <input type="submit" value="Save" class="btn btn-primary" asp-controller="Utilizadores" asp-action="Details" asp-route-id="@Model.Utilizador2FK"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Utilizadores" asp-action="Details" asp-route-id="@Model.Utilizador2FK">Back to Profile</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
