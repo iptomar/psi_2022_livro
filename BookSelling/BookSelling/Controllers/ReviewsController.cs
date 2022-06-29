@@ -112,6 +112,11 @@ namespace BookSelling.Controllers
                 return NotFound();
             }
 
+            ModelState.Remove("AdsFK");
+            ModelState.Remove("UtilizadoresFK");
+            ModelState.Remove("Visibilidade");
+            ModelState.Remove("Data");
+            
             if (ModelState.IsValid)
             {
                 try
@@ -130,11 +135,13 @@ namespace BookSelling.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Advertisements", new { id = reviews.AdsFK });
             }
             ViewData["AdsFK"] = new SelectList(_context.Advertisement, "AdID", "ISBM", reviews.AdsFK);
             ViewData["UtilizadoresFK"] = new SelectList(_context.Utilizadores, "UserID", "Area", reviews.UtilizadoresFK);
-            return View(reviews);
+            //return View(reviews);
+            return RedirectToAction("Details", "Advertisements", new { id = reviews.AdsFK});
         }
 
         // GET: Reviews/Delete/5
@@ -163,14 +170,17 @@ namespace BookSelling.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             //recolher dados do utilizador
-            var utilizador = _context.Utilizadores.Where(u => u.ID == _userManager.GetUserId(User)).FirstOrDefault();
+            var utilizador = _context.Utilizadores.Where(u => u.LinkID == _userManager.GetUserId(User)).FirstOrDefault();
             //como foi apagada a Review o utilizador pode colocar outra
             utilizador.ControlarReview = false;
             _context.Utilizadores.Update(utilizador);
             var reviews = await _context.Reviews.FindAsync(id);
+            var idUser = reviews.AdsFK;
             _context.Reviews.Remove(reviews);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            //return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Advertisements", new { id = idUser });
         }
 
         private bool ReviewsExists(int id)

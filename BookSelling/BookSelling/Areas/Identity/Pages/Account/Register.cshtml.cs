@@ -230,7 +230,7 @@ namespace BookSelling.Areas.Identity.Pages.Account
                     // a quando da escreita dos dados na interface
                     // exatamente a mesma tarefa feita na linha 128
 
-                    // adicionar o ID do utilizador,
+                    // adicionar o LinkID do utilizador,
                     // para formar uma 'ponte' (foreign key) entre
                     // os dados da autenticação 
 
@@ -241,7 +241,7 @@ namespace BookSelling.Areas.Identity.Pages.Account
                     Utilizadores utilizador = new Utilizadores
                     {
                         Email = user.Email,
-                        ID = user.Id,
+                        LinkID = user.Id,
                         Area = Input.Area,
                         UserName = Input.UserName,
                         Telephone = Input.PhoneNumber

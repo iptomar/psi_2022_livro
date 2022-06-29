@@ -38,7 +38,7 @@ namespace BookSelling.Controllers
         {
 
             //variável que vai buscar o Utilizador que escreveu a Review
-            var utilizador = _context.Utilizadores.Where(u => u.ID == _userManager.GetUserId(User)).FirstOrDefault();
+            var utilizador = _context.Utilizadores.Where(u => u.LinkID == _userManager.GetUserId(User)).FirstOrDefault();
 
             //Colocar nos dados da Review os daods introduzidos pelo Utilizador
             var review = new UserReview
@@ -78,17 +78,19 @@ namespace BookSelling.Controllers
                     }
                 }
             }
-
+            UserReview item3 = null;
+            
             foreach (var item in _context.UserReview)
             {
                 if (item.Utilizador2FK == reviwed && User.Identity.Name == item.Utilizador.Email)
                 {
                     //item.ValueReview = value;
-                    var item3 = _context.UserReview.First(a => a == item);
+                    item3 = _context.UserReview.First(a => a == item);
                     item3.ValueReview = value;
                 }
             }
 
+            //await _context.SaveChangesAsync();
             _context.SaveChanges();
 
             if (result.Any())
@@ -136,7 +138,7 @@ namespace BookSelling.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserID,UserName,ID,Email,Reputation,Area,BooksSold,Telephone")] Utilizadores utilizadores)
+        public async Task<IActionResult> Create([Bind("UserID,UserName,LinkID,Email,Reputation,Area,BooksSold,Telephone")] Utilizadores utilizadores)
         {
             if (ModelState.IsValid)
             {
@@ -168,14 +170,14 @@ namespace BookSelling.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserID,UserName,ID,Email,Reputation,Area,BooksSold,Telephone")] Utilizadores utilizadores, String username, String email)
+        public async Task<IActionResult> Edit(int id, [Bind("UserID,UserName,LinkID,Email,Reputation,Area,BooksSold,Telephone")] Utilizadores utilizadores, String username, String email)
         {
             if (id != utilizadores.UserID)
             {
                 return NotFound();
             }
             ModelState.Remove("UserID");
-            ModelState.Remove("ID");
+            ModelState.Remove("LinkID");
             ModelState.Remove("BookSold");
             ModelState.Remove("Reputation");
 

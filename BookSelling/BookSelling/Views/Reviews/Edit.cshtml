@@ -14,34 +14,34 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IdReview" />
             <div class="form-group">
-                <label asp-for="Comentario" class="control-label"></label>
-                <input asp-for="Comentario" class="form-control" />
+                <label asp-for="Comentario" class="control-label">Comment</label>
+                <textarea asp-for="Comentario" style="width:600px;height:60px" class="form-control"><</textarea>
                 <span asp-validation-for="Comentario" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Pontuacao" class="control-label"></label>
+                <label asp-for="Pontuacao" class="control-label">Rating</label>
                 <input asp-for="Pontuacao" class="form-control" />
                 <span asp-validation-for="Pontuacao" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Data" class="control-label"></label>
-                <input asp-for="Data" class="form-control" />
-                <span asp-validation-for="Data" class="text-danger"></span>
+                <label hidden asp-for="Data" class="control-label">Date</label>
+                <input hidden asp-for="Data" class="form-control" />
+                <span hidden asp-validation-for="Data" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Visibilidade" /> @Html.DisplayNameFor(model => model.Visibilidade)
+                <label hidden class="form-check-label">
+                    <input hidden class="form-check-input" asp-for="Visibilidade" /> @Html.DisplayNameFor(model => model.Visibilidade)
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="UtilizadoresFK" class="control-label"></label>
-                <select asp-for="UtilizadoresFK" class="form-control" asp-items="ViewBag.UtilizadoresFK"></select>
-                <span asp-validation-for="UtilizadoresFK" class="text-danger"></span>
+                <label hidden asp-for="UtilizadoresFK" class="control-label"></label>
+                <select hidden asp-for="UtilizadoresFK" class="form-control" asp-items="ViewBag.UtilizadoresFK"></select>
+                <span hidden asp-validation-for="UtilizadoresFK" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AdsFK" class="control-label"></label>
-                <select asp-for="AdsFK" class="form-control" asp-items="ViewBag.AdsFK"></select>
-                <span asp-validation-for="AdsFK" class="text-danger"></span>
+                <label hidden asp-for="AdsFK" class="control-label"></label>
+                <select hidden asp-for="AdsFK" class="form-control" asp-items="ViewBag.AdsFK"></select>
+                <span hidden asp-validation-for="AdsFK" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -51,7 +51,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Advertisements" asp-action="Details" asp-route-id="@Model.AdsFK">Back to List</a>
 </div>
 
 @section Scripts {

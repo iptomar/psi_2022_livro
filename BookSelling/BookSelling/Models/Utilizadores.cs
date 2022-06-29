@@ -14,7 +14,7 @@ namespace BookSelling.Models
         }       
 
         /// <summary>
-        /// User ID
+        /// User LinkID
         /// </summary>
         [Key]
         public int UserID { get; set; }
@@ -31,7 +31,7 @@ namespace BookSelling.Models
         /// <summary>
         /// Ligação entre os Utilizadores e a tabela de Autenticação
         /// </summary>
-        public string ID { get; set; }
+        public string LinkID { get; set; }
 
         /// <summary>
         /// Email do Utilizador

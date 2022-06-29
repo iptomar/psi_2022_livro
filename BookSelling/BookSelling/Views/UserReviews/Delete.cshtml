@@ -23,7 +23,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DateReview)
         </dd>
-        <dt class = "col-sm-2">
+        @*<dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Utilizador)
         </dt>
         <dd class = "col-sm-10">
@@ -34,12 +34,13 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Utilizador2.Area)
-        </dd>
+        </dd>*@
     </dl>
-    
+    <a hidden name="delete">Yes</a>
+    @*<input type="submit" value="Delete" class="btn btn-danger" asp-controller="Utilizadores" asp-action="Details" asp-route-id="@Model.Utilizador2FK"/>*@
     <form asp-action="Delete">
         <input type="hidden" asp-for="IdReview" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <input type="submit" value="Delete" class="btn btn-danger"/> |
         <a asp-controller="Utilizadores" asp-action="Details" asp-route-id="@Model.Utilizador2FK">Back to Profile</a>
     </form>
 </div>

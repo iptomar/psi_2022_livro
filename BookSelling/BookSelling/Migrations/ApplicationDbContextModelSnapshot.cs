@@ -292,7 +292,7 @@ namespace BookSelling.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("ID")
+                    b.Property<string>("LinkID")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Reputation")

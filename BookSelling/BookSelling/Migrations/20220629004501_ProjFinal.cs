@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BookSelling.Migrations
 {
-    public partial class projetofinal : Migration
+    public partial class ProjFinal : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -68,7 +68,7 @@ namespace BookSelling.Migrations
                     UserID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LinkID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Reputation = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Area = table.Column<string>(type: "nvarchar(max)", nullable: false),

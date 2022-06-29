@@ -14,7 +14,7 @@ namespace BookSelling.Models
         }
 
         /// <summary>
-        /// Advertisement ID
+        /// Advertisement LinkID
         /// </summary>
         [Key]
         public int AdID { get; set; }

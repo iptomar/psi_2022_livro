@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookSelling.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220628224630_projetofinal")]
-    partial class projetofinal
+    [Migration("20220629004501_ProjFinal")]
+    partial class ProjFinal
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -294,7 +294,7 @@ namespace BookSelling.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("ID")
+                    b.Property<string>("LinkID")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Reputation")

@@ -14,51 +14,65 @@
              width="200" />
     </div>
     <div style="line-height:2;  ">
-        <b> Titulo:</b>
+        <b> Title:</b>
         @Html.DisplayFor(model => model.Title) <br />
 
-        <b> Preço: </b>
+        <b> Price: </b>
         @Html.DisplayFor(model => model.Price)<br />
 
-        <b> Tipo de anuncio:</b>
+        <b> Type of Ad:</b>
         @Html.DisplayFor(model => model.TypeofAdd)<br />
 
         <b> ISBM:</b>
         @Html.DisplayFor(model => model.ISBM)<br />
 
-        <b> Data de criação:</b>
+        <b> Creation Date:</b>
         @Html.DisplayFor(model => model.DateTime)<br />
 
-        <b>Categorias: </b>
+        <b>Categories: </b>
         @foreach (var item in Model.CategoriesList) {
-            <a asp-route-id="@item.IdAdvertsCategory" style="margin-right:5px;">@item.Advertisement</a>
+                <a asp-route-id="@item.IdAdvertsCategory" style="margin-right:5px;">@item.Category</a>
         }<br />
 
-        <b> Descrição:</b>
-        @Html.DisplayFor(model => model.Description)<br /> <br /><br /> <br />
+        <b> Description:</b>
+        @Html.DisplayFor(model => model.Description)<br />
 
+        <b>Owner:</b>
+        <b><button class="btn btn-primary" style="margin-bottom: 15px; height:35px; margin-right:10px" onclick="location.href = '@Url.Action("Details","Utilizadores", new { id = Model.UserID})'">@Model.User.UserName</button></b>
+        
     </div>
 
 
 
 
 
+    @{
+        int flagComment = 0;
+        @foreach (var item in Model.ReviewsList)
+        {
+            if (item.Utilizador.Email == User.Identity.Name)
+            {
+                flagComment++;
+            }
+        }
 
+        if (@flagComment == 0)
+        {
+           <div>
+                <form asp-action="CreateComentario" method="post">
+                        <input type="hidden" name="IdAds" value="@Model.AdID" />
+                        <span>Rating: </span><input required type="number" name="rating" min="1" max="10" maxlength="2" placeholder="1" /><br /><br />
+                        <span>Comment:</span><br />
+                        <textarea required name="comentario" style="resize:none; width:900px; height:100px;"></textarea><br />
+                        <div style="float: right; width:36%">
+                            <input type="submit" value="Add Comment" class="btn btn-primary" />
+                        </div><br /><br />
+                </form>
+            </div>
+        }
+    }
+    
 
-
-
-
-    <div>
-    <form asp-action="CreateComentario" method="post">
-                <input type="hidden" name="IdAds" value="@Model.AdID" />
-                <span>Rating: </span><input required type="number" name="rating" min="1" max="10" maxlength="2" placeholder="1" /><br /><br />
-                <span>Comentario:</span><br />
-                <textarea required name="comentario" style="resize:none; width:900px; height:100px;"></textarea><br />
-                <div style="float: right; width:36%">
-                    <input type="submit" value="Adicionar Comentrario" class="btn btn-primary" />
-                </div><br /><br />
-            </form>
-    </div>
 
     <div id="comentarios" style="width:80%">
         @foreach (var item in Model.ReviewsList) {
@@ -66,34 +80,25 @@
                 <div style="border: 3px solid black; background-color: #ece3f7;
         padding-top: 2px; padding-right: 3px; padding-bottom: 5px; padding-left: 5px;">
 
-                    <span style="font-weight:bold; font-size:medium;">  Utilizador: </span> @item.Utilizador.Email
-                    <span style="font-weight:bold; font-size:medium; float:right; margin-right:5px">  Pontuação: @item.Pontuacao</span><br />
+                    <span style="font-weight:bold; font-size:medium;">  User: </span> @item.Utilizador.Email
+                    <span style="font-weight:bold; font-size:medium; float:right; margin-right:5px">  Rating: @item.Pontuacao</span><br />
 
-                    <span style="font-weight:bold; font-size:medium">  Comentario: </span>@Html.Raw(item.Comentario) <br />
-                    <span style="font-weight:bold; font-size:medium">  Data: </span>@item.Data <br />
+                    <span style="font-weight:bold; font-size:medium">  Comment: </span>@Html.Raw(item.Comentario) <br />
+                    <span style="font-weight:bold; font-size:medium">  Date: </span>@item.Data <br />
 
                 </div><br />
                 
                 
                     if (item.Utilizador.Email == User.Identity.Name) {
                         <div>
-                            <button class="btn btn-primary" onclick="location.href = '@Url.Action("Edit", "Reviews", new { id = item.IdReview })'">Editar</button>
-                            <button class="btn btn-primary" onclick="location.href = '@Url.Action("Delete", "Reviews", new { id = item.IdReview })'">Eliminar</button>
+                            <button class="btn btn-primary" onclick="location.href = '@Url.Action("Edit", "Reviews", new { id = item.IdReview })'">Edit</button>
+                            <button class="btn btn-primary" onclick="location.href = '@Url.Action("Delete", "Reviews", new { id = item.IdReview })'">Delete</button>
                         </div><br />
                     }
 
                 }}<br /><br />
 
     </div>
-
-
-
-
-
-
-
-
-
 
 
 
@@ -123,7 +128,8 @@
                         <input type="hidden" name="id" value="@Model.AdID" />
                         <div style="">
                             <a asp-action="Edit" asp-route-id="@Model?.AdID">Edit</a> |
-                            <a asp-action="Index">Back to List</a> | 
+                            <a asp-controller="Home" asp-action="Index">Back to List</a> | 
+                            <a asp-action="Delete" asp-route-id="@Model.AdID" class="btn btn-danger">Delete</a> |
                             <input type="submit" value="Favorite" class="btn btn-primary" />
                         </div>
                     </div>
@@ -135,9 +141,11 @@
                     <div style="">
                         <input type="hidden" name="id" value="@Model.AdID" />
                         <div style="">
+
                             <a asp-action="Edit" asp-route-id="@Model?.AdID">Edit</a> |
-                            <a asp-action="Index">Back to List</a> |
-                            <input type="submit" value="Favorite" class="btn btn-danger" />
+                            <a asp-controller="Home" asp-action="Index">Back to List</a> |
+                            <a asp-action="Delete" asp-route-id="@Model.AdID" class="btn btn-danger">Delete</a> |
+                            <input type="submit" value="Remove" class="btn btn-danger" />
                         </div>
                     </div>
                 </form>

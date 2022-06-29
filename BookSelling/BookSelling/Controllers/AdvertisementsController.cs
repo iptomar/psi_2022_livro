@@ -66,7 +66,7 @@ namespace BookSelling.Controllers
         public async Task<IActionResult> CreateComentario(int IdAds, string comentario, int rating)
         {
             //recolher dados do utilizador
-            var utilizador = _context.Utilizadores.Where(u => u.ID == _userManager.GetUserId(User)).FirstOrDefault();
+            var utilizador = _context.Utilizadores.Where(u => u.LinkID == _userManager.GetUserId(User)).FirstOrDefault();
 
             // será que este user já fez um comentário sobre este filme?
             var oldComentario = await _context.Reviews.Where(r => r.Utilizador == utilizador && r.AdsFK == IdAds).FirstOrDefaultAsync();
@@ -136,6 +136,7 @@ namespace BookSelling.Controllers
 
             var advertisement = await _context.Advertisement
                 .Include(a => a.User)
+                .Include(c => c.CategoriesList)
                 .Include(f => f.ReviewsList)
                 .ThenInclude(r => r.Utilizador)
                 .FirstOrDefaultAsync(m => m.AdID == id);
@@ -368,8 +369,9 @@ namespace BookSelling.Controllers
                     // report error. For instance, write a message to the disc
                     // or send an email to admin              
 
-                    // send control to View
-                    return View(advertisement);
+                    //// send control to View
+                    return RedirectToAction("Index", "Home");
+                    //return View(advertisement);
                 }
                 // save image file to disk
                 //ask the server what address it wants to use
@@ -380,11 +382,13 @@ namespace BookSelling.Controllers
                 using var stream = new FileStream(newimglocation, FileMode.Create);
                 await newphoto.CopyToAsync(stream);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
+                //return RedirectToAction(nameof(Index));
 
             }
             ViewData["UserID"] = new SelectList(_context.Set<Utilizadores>(), "UserID", "Email", advertisement.UserID);
-            return View(advertisement);
+            //return View(advertisement);
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Advertisements/Edit/5
@@ -409,12 +413,16 @@ namespace BookSelling.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AdID,TypeofAdd,Price,ISBM,UserID,sold,Visibility,DateTime")] Advertisement advertisement)
+        public async Task<IActionResult> Edit(int id, [Bind("AdID,TypeofAdd,Title,Price,ISBM,UserID,sold,Photo,Description,Visibility,DateTime")] Advertisement advertisement)
         {
             if (id != advertisement.AdID)
             {
                 return NotFound();
             }
+
+            ModelState.Remove("Visibility");
+            ModelState.Remove("DateTime");
+            ModelState.Remove("UserID");
 
             if (ModelState.IsValid)
             {
@@ -434,10 +442,12 @@ namespace BookSelling.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Advertisements", new { id = advertisement.AdID });
             }
             ViewData["UserID"] = new SelectList(_context.Set<Utilizadores>(), "UserID", "Email", advertisement.UserID);
-            return View(advertisement);
+            //return View(advertisement);
+            return RedirectToAction("Details", "Advertisements", new { id = advertisement.AdID });
         }
 
         // GET: Advertisements/Delete/5
@@ -466,9 +476,11 @@ namespace BookSelling.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var advertisement = await _context.Advertisement.FindAsync(id);
+            var advertID = advertisement.AdID;
             _context.Advertisement.Remove(advertisement);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Advertisements", new { id = advertID });
         }
 
         private bool AdvertisementExists(int id)

@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -157,13 +157,15 @@ namespace BookSelling.Controllers
                 return Problem("Entity set 'ApplicationDbContext.UserReview'  is null.");
             }
             var userReview = await _context.UserReview.FindAsync(id);
+            var idUser = userReview.Utilizador2FK;
             if (userReview != null)
             {
                 _context.UserReview.Remove(userReview);
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Utilizadores", new { id = idUser });
         }
 
         private bool UserReviewExists(int id)
