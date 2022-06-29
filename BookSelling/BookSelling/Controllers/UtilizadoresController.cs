@@ -168,13 +168,45 @@ namespace BookSelling.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserID,UserName,ID,Email,Reputation,Area,BooksSold,Telephone")] Utilizadores utilizadores)
+        public async Task<IActionResult> Edit(int id, [Bind("UserID,UserName,ID,Email,Reputation,Area,BooksSold,Telephone")] Utilizadores utilizadores, String username, String email)
         {
             if (id != utilizadores.UserID)
             {
                 return NotFound();
             }
+            ModelState.Remove("UserID");
+            ModelState.Remove("ID");
+            ModelState.Remove("BookSold");
+            ModelState.Remove("Reputation");
 
+            //foreach (var user in _context.Utilizadores)
+            //{
+            //    if (user.Email == email && User.Identity.Name != email)
+            //    {
+            //        ViewBag.ErrorMessage = "This email is already in use.";
+            //        return View(utilizadores);
+            //    }
+            //}
+
+            //foreach (var user in _context.Utilizadores)
+            //{
+            //    if (user.UserName == username && User.Identity.Name != email)
+            //    {
+            //        ViewBag.ErrorMessage = "This username is already in use.";
+            //        return View();
+            //    }
+            //}
+
+            //foreach (var user in _context.Users)
+            //{
+            //    if (user.Email == User.Identity.Name)
+            //    {
+            //        var user2 = _context.Users.First(a => a == user);
+            //        user2.Email = email;
+            //    }
+            //}
+
+            //_context.SaveChanges();
             if (ModelState.IsValid)
             {
                 try
@@ -193,9 +225,15 @@ namespace BookSelling.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                //return PartialView("Details", utilizadores);
+                return RedirectToAction(nameof(Details), new { id = id });
+                //return RedirectToAction(nameof(Details));
             }
-            return View(utilizadores);
+
+            //return PartialView("Details", utilizadores);
+            //return View("Details", utilizadores);
+            return RedirectToAction(nameof(Details), new { id = id });
         }
 
         // GET: Utilizadores/Delete/5

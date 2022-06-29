@@ -68,7 +68,9 @@
             <img style=" width: 120px; height: 120px; object-fit:fill; border-radius: 60px" src="~/Logos/logo_user2b.png"/>
             <h5 class="my-3">@Model.UserName</h5>
             <p class="text-muted mb-4">@Model.Email</p>
-            <button class="btn btn-primary" style="height:35px; margin-right:10px" onclick="location.href = '@Url.Action("Edit","Utilizadores", new { id = Model.UserID})'">Edit</button>
+            @if(User.Identity.IsAuthenticated && Model.Email == User.Identity.Name){
+                <button class="btn btn-primary" style="height:35px; margin-right:10px" onclick="location.href = '@Url.Action("Edit","Utilizadores", new { id = Model.UserID})'">Edit</button>
+            }
           </div>
         </div>
       </div>
@@ -170,7 +172,7 @@
                             <input type="hidden" name="userId" value="@Model.UserID" />
                             <div style="border-top: 10px solid transparent; border-bottom: 25px solid transparent">
                                 <a style="font-weight: bold">Review: </a><input required type="number" name="nota" min="1" max="5" text-align="center" maxlength="1" placeholder="1 a 5" />
-                                <input type="submit" value="Adicionar nota" class="btn btn-primary" />
+                                <input type="submit" value="Add Review" class="btn btn-primary" />
                             </div>
                         </div>
                     </form>
