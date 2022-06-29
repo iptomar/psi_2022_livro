@@ -152,6 +152,7 @@ namespace BookSelling.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> AddFavorite(int id)
         {
 
@@ -261,8 +262,7 @@ namespace BookSelling.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // 
-
+        [Authorize]
         public async Task<IActionResult> Create([Bind("AdID,TypeofAdd,Title,Description,Price,ISBM,Photo,UserID,sold,Visibility,DateTime,User")] Advertisement advertisement, IFormFile newphoto, String typeAd, ICollection<String> ChoosenCategory)
         {
             ModelState.Remove("DateTime");
@@ -413,12 +413,14 @@ namespace BookSelling.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("AdID,TypeofAdd,Title,Price,ISBM,UserID,sold,Photo,Description,Visibility,DateTime")] Advertisement advertisement)
         {
             if (id != advertisement.AdID)
             {
                 return NotFound();
             }
+ 
 
             ModelState.Remove("Visibility");
             ModelState.Remove("DateTime");
