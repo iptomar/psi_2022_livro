@@ -7,7 +7,12 @@
 <head>
     <link rel="stylesheet" href="~/css/ImagensFavorites.css" />
 </head>
-<button class="btn btn-primary" style="height:35px; margin-top: 15px; margin-right:10px; float:right" onclick="location.href = '@Url.Action("Create","Advertisements")'">Create Advertisement</button> 
+
+@if (User.Identity.IsAuthenticated)
+{
+    <button class="btn btn-primary" style="height:35px; margin-top: 15px; margin-right:10px; float:right" onclick="location.href = '@Url.Action("Create","Advertisements")'">Create Advertisement</button> 
+}
+
 <h1>Advertisements List</h1>
 
 <body style="background-image: url('../Logos/bkteste6.jpg');

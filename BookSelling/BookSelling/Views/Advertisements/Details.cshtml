@@ -45,8 +45,8 @@
 
 
 
-
-    @{
+    @if (User.Identity.IsAuthenticated)
+    {
         int flagComment = 0;
         @foreach (var item in Model.ReviewsList)
         {
